@@ -1,4 +1,5 @@
 'use strict';
+var bcrypt = require('bcrypt-nodejs');
 
 module.exports = function (sequelize, DataTypes) {
 
@@ -18,16 +19,27 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING
         },
         password: {
-            type: DataTypes.STRING,
-            roles: {
-                auth: true,
-                self: true
-            }
+            type: DataTypes.STRING
         },
         admin: {
             type: DataTypes.BOOLEAN
         }
+    }, {
+        instanceMethods: {
+            checkPassword: function (password) {
+                return bcrypt.compareSync(password, this.password);
+
+            }
+        }
     });
+
+    // override toJSON method to not send password
+    User.prototype.toJSON = function () {
+        const values = Object.assign({}, this.get());
+
+        delete values.password;
+        return values;
+    };
 
     return User;
 };

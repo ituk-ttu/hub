@@ -2,11 +2,10 @@ var express = require('express');
 var router = express.Router();
 var jwt = require('jsonwebtoken');
 var models = require('../models/index');
-var bcrypt = require('bcrypt-nodejs');
 
 router.post('/password', function (req, res) {
     models.User.findOne({where: {email: req.body.username}}).then(function (user) {
-        if (user && bcrypt.compareSync(req.body.password, user.get("password"))) {
+        if (user && user.checkPassword(req.body.password)) {
 
             var token = jwt.sign(user, "hi!", {
                 expiresIn: "48h"
