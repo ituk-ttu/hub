@@ -1,0 +1,15 @@
+.well.well-lg
+    h2 {{application.name}}
+    p: small {{application.personalCode}}
+    p
+        strong E-mail:
+        |  {{application.email}}
+    p
+        strong Telefon:
+        |  {{application.phone}}
+    p
+        strong Tudenikood:
+        |  {{application.studentCode}}
+.btn-group.btn-group-justified(ng-if="application.status == 'WAITING'")
+    a(href="").btn.btn-success.btn-lg Võta vastu
+    a(href="").btn.btn-danger.btn-lg Lükka tagasi

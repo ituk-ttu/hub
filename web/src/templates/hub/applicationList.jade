@@ -1,0 +1,33 @@
+.table-responsive
+    table.table.table-striped.table-hover.table-list
+        thead
+            tr
+                th ID
+                th Nimi
+                th Isikukood
+                th E-mail
+                th Telefoni number
+                th Tudengikood
+                th Saadetud
+                th Staatus
+        tbody
+            tr
+                td
+                td: input.input-sm.form-control(type="text" placeholder="Otsi" ng-model="search.name")
+                td: input.input-sm.form-control(type="text" placeholder="Otsi" ng-model="search.personalCode")
+                td: input.input-sm.form-control(type="text" placeholder="Otsi" ng-model="search.email")
+                td: input.input-sm.form-control(type="text" placeholder="Otsi" ng-model="search.phone")
+                td: input.input-sm.form-control(type="text" placeholder="Otsi" ng-model="search.studentCode")
+                td
+                td
+            tr.clickable(ng-repeat="application in applications | filter: search | applicationOrderer",
+                             ui-sref="hub.application({id: application.id})"
+                             ng-class="application.status == 'WAITING' ? 'info' : ''")
+                td {{application.id}}
+                td: strong {{application.name}}
+                td {{application.personalCode}}
+                td {{application.email}}
+                td {{application.phone}}
+                td {{application.studentCode}}
+                td {{application.createdAt | amDateFormat:'HH:mm DD.MM.YYYY'}}
+                td: span.label(ng-class="getStatusLabel(application.status)") {{application.status}}
