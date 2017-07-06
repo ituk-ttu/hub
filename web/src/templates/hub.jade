@@ -9,7 +9,9 @@
             a.navbar-brand(href="#") Hub | ITÜK
         .collapse.navbar-collapse
             ul.nav.navbar-nav
-                li: a(ui-sref="hub.applicationList") Avaldused
+                li(ng-if="tokenData.admin"): a(ui-sref="hub.applicationList") Avaldused
+                li: a(ui-sref="hub.resourceList") Ressursid
             ul.nav.navbar-nav.navbar-right
-                li: a(ui-sref="hub") Logi välja
+                li: a(ui-sref="hub") Seaded
+                li: a(ui-sref="hub") Logi välja ({{tokenData.name}})
 .container.content(ui-view)

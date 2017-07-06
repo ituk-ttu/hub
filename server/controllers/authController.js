@@ -3,11 +3,12 @@ var router = express.Router();
 var jwt = require('jsonwebtoken');
 var models = require('../models/index');
 
+require('dotenv').config();
+
 router.post('/password', function (req, res) {
     models.User.findOne({where: {email: req.body.username}}).then(function (user) {
         if (user && user.checkPassword(req.body.password)) {
-
-            var token = jwt.sign(user, "hi!", {
+            var token = jwt.sign(user.toJSON(), process.env.JWT_SECRET, {
                 expiresIn: "48h"
             });
             res.json({
@@ -17,6 +18,8 @@ router.post('/password', function (req, res) {
         } else {
             res.status(403).send("Wrong password");
         }
+    }).catch(function (err) {
+        res.status(403).send("Wrong password");
     });
 });
 

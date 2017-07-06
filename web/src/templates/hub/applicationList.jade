@@ -1,3 +1,4 @@
+h1 Avaldused
 .table-responsive
     table.table.table-striped.table-hover.table-list
         thead
@@ -22,7 +23,7 @@
                 td
             tr.clickable(ng-repeat="application in applications | filter: search | applicationOrderer",
                              ui-sref="hub.application({id: application.id})"
-                             ng-class="application.status == 'WAITING' ? 'info' : ''")
+                             ng-class="application.status == 'WAITING' ? 'success' : ''")
                 td {{application.id}}
                 td: strong {{application.name}}
                 td {{application.personalCode}}

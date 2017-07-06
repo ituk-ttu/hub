@@ -1,0 +1,14 @@
+form(ng-submit="save()")
+    .form-group
+        label.control-label Nimi
+        input.form-control(ng-model="edited.name" type="text")
+    .form-group
+        label.control-label Kommentaar
+        input.form-control(ng-model="edited.comment" type="text")
+    .form-group
+        label.control-label URL
+        input.form-control(ng-model="edited.url" type="text")
+    .from-group
+        button.btn.btn-success(type="submit" ng-if="!working") Salvesta
+        button.btn.btn-success(ng-if="working" disabled): i.fa.fa-cog.fa-spin-fast
+        button.btn.btn-danger(ng-click="editing = false") Katkesta

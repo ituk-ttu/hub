@@ -2,3 +2,4 @@
 .idea/
 web/build/
 server/node_modules/
+server/.env

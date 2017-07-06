@@ -22,12 +22,26 @@ app.factory("applicationService", ["$q", "$http", function($q, $http) {
         return deferred.promise;
     }
 
+    function setStatus(id, status) {
+        var deferred = $q.defer();
+        $http.patch(apiBase + "/application/" + id + "/status", {status: status})
+            .success(function(data) {
+                return deferred.resolve(data);
+            }).error(function() {
+            //TODO: implement error handling
+        });
+        return deferred.promise;
+    }
+
     return {
-        get: function(id) {
+        get: function (id) {
             return get(id);
         },
         getAll: function () {
             return getAll();
+        },
+        setStatus: function (id, status) {
+            return setStatus(id, status)
         }
     }
 }]);

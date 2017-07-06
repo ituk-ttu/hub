@@ -23,22 +23,28 @@ module.exports = function (sequelize, DataTypes) {
         },
         admin: {
             type: DataTypes.BOOLEAN
-        }
-    }, {
-        instanceMethods: {
-            checkPassword: function (password) {
-                return bcrypt.compareSync(password, this.password);
-
-            }
+        },
+        archived: {
+            type: DataTypes.BOOLEAN
+        },
+        canBeMentor: {
+            type: DataTypes.BOOLEAN
         }
     });
 
-    // override toJSON method to not send password
-    User.prototype.toJSON = function () {
-        const values = Object.assign({}, this.get());
+    User.prototype.checkPassword = function (password) {
+       return bcrypt.compareSync(password, this.getDataValue("password"));
+    };
 
-        delete values.password;
-        return values;
+    User.prototype.setPassword = function (password) {
+       this.password = bcrypt.hashSync(password);
+    };
+
+    User.associate = function (models) {
+        User.hasOne(models.Mentor, {
+            onDelete: "CASCADE",
+            as: "mentorship"
+        });
     };
 
     return User;

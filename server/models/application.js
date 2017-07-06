@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-    return sequelize.define('Application', {
+    var Application = sequelize.define('Application', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
@@ -20,8 +20,27 @@ module.exports = function(sequelize, DataTypes) {
         studentCode: {
             type: DataTypes.STRING
         },
+        mentorSelectionCode: {
+            type: DataTypes.STRING
+        },
         status: {
-            type: DataTypes.ENUM('APPROVED', 'WAITING', 'REJECTED')
+            type: DataTypes.ENUM('ACCEPTED', 'WAITING', 'REJECTED')
         }
     });
+
+    Application.associate = function (models) {
+        Application.belongsTo(models.User, {
+            onDelete: "NO ACTION",
+            as: "processedBy"
+        });
+    };
+
+    Application.associate = function (models) {
+        Application.belongsTo(models.User, {
+            onDelete: "NO ACTION",
+            as: "createdBy"
+        });
+    };
+
+    return Application;
 };

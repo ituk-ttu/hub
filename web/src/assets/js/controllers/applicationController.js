@@ -5,8 +5,8 @@ app.controller("applicationController", ["$q", "$scope", "$stateParams", "$rootS
         $scope.application = {};
 
         var init = function () {
-            applicationService.get($stateParams.id).then(function (applications) {
-                $scope.application = applications;
+            applicationService.get($stateParams.id).then(function (application) {
+                $scope.application = application;
             })
         };
 
@@ -20,6 +20,41 @@ app.controller("applicationController", ["$q", "$scope", "$stateParams", "$rootS
                     return "label-danger";
                 default:
                     return "label-default";
+            }
+        };
+
+        $scope.getNameClass = function (status) {
+            switch (status) {
+                case "REJECTED":
+                    return "text-danger";
+                case "ACCEPTED":
+                    return "text-success";
+                default:
+                    return "";
+            }
+        };
+
+        $scope.setStatus = function (status) {
+            if (status === "REJECTED") {
+                swal({
+                    title: 'Lükka tagasi?',
+                    text: "Advaldus (" + resource.name + ") lükatakse tagasi. Seda hiljem muuta pole võimalik!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn btn-danger btn-popup',
+                    cancelButtonClass: 'btn btn-default btn-popup',
+                    confirmButtonText: 'Jah, lükka tagasi',
+                    cancelButtonText: 'Katkesta',
+                    buttonsStyling: false
+                }).then(function () {
+                    applicationService.setStatus($scope.application.id, status).then(function (application) {
+                        $scope.application = application;
+                    });
+                });
+            } else if (status === 'ACCEPTED') {
+                applicationService.setStatus($scope.application.id, status).then(function (application) {
+                    $scope.application = application;
+                });
             }
         };
 

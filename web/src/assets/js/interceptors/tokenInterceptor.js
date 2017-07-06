@@ -37,7 +37,7 @@ app.factory('tokenInterceptor', function ($q, jwtHelper, store, $injector, $root
             }
         },
         request: function(data) {
-            store.set('jwt', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiZWVwYm9vcCIsImlhdCI6MTQ5ODg1ODk3NiwiZXhwIjoxNDk5MDMxNzc2fQ.bS9FWPhdf0JTA01A21PGa2_XNsxAf5cum8xdBvoy6fM");
+            store.set('jwt', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IkpvaGFubmVzIEvDvG1tZWwiLCJlbWFpbCI6Impva3VtbUB0dHUuZWUiLCJ0ZWxlZ3JhbSI6ImpreW1tZWwiLCJhZG1pbiI6dHJ1ZSwiYXJjaGl2ZWQiOmZhbHNlLCJjcmVhdGVkQXQiOiIyMDE3LTA3LTAxVDExOjMxOjA3LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDE3LTA3LTAxVDExOjMxOjA3LjAwMFoiLCJpYXQiOjE0OTg5MjM0NzUsImV4cCI6MTQ5OTA5NjI3NX0.IUSQJig_GZHyCoizAH2dMWqldI7koisjyKo_Zt3mhY8");
             if (data === undefined || data.headers === undefined || data.headers.Authorization === undefined) {
                 data.headers.Authorization = "Bearer " + store.get('jwt');
             }

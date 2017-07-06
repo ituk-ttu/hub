@@ -1,13 +1,19 @@
-app.factory("authService", ["", function() {
+app.factory("authService", ["$q", "$http", function($q, $http) {
 
-    var password = {
-        success: true,
-        token: "Bearer S0m3Th1n65omE7hiNG"
-    };
+    function usingPassword(username, password) {
+        var deferred = $q.defer();
+        $http.post(apiBase + "/authenticate/password", {username: username, password: password})
+            .success(function(data) {
+                return deferred.resolve(data);
+            }).error(function() {
+            //TODO: implement error handling
+        });
+        return deferred.promise;
+    }
 
     return {
         password: function(username, password) {
-            return password;
+            return usingPassword(username, password);
         }
     }
 }]);

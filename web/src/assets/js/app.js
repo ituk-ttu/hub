@@ -12,11 +12,13 @@ var app = angular.module("hub", [
     "angular-storage",
     'ui.bootstrap',
     "angularMoment",
-    "angular-jwt"
+    "angular-jwt",
+    "ngclipboard"
 ]).run(function($rootScope, $state, $stateParams, store, jwtHelper) {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
     $rootScope.refreshingToken = false;
+    $rootScope.tokenData = jwtHelper.decodeToken(store.get('jwt'));
 
     $rootScope.$on('$stateChangeStart', function(e, to, params) {
         if (to.data && to.data.requiresLogin) {
@@ -56,6 +58,14 @@ var app = angular.module("hub", [
             abstract: true,
             templateUrl: "templates/hub.html",
             controller: "hubController",
+            data: {
+                requiresLogin: true
+            }
+        })
+        .state("hub.resourceList", {
+            url: "/resources",
+            templateUrl: "templates/hub/resourceList.html",
+            controller: "resourceListController",
             data: {
                 requiresLogin: true
             }

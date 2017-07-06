@@ -1,9 +1,11 @@
 var Sequelize = require("sequelize");
 var fs = require("fs");
 var path = require("path");
-var env = process.env.NODE_ENV || "development";
+var env = process.env.ENVIRONMENT || "development";
 
-var sequelize = new Sequelize(process.env.DATABASE_URL ? process.env.DATABASE_URL : 'mysql://root:@localhost:3306/hub');
+require('dotenv').config();
+
+var sequelize = new Sequelize(process.env.DB_URL);
 var db = {};
 
 fs

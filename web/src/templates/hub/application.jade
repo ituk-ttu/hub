@@ -1,5 +1,5 @@
+h1(ng-class="getNameClass(application.status)") {{application.name}}
 .well.well-lg
-    h2 {{application.name}}
     p: small {{application.personalCode}}
     p
         strong E-mail:
@@ -10,6 +10,11 @@
     p
         strong Tudenikood:
         |  {{application.studentCode}}
+    p
+        strong Staatus:
+        |  #[span.label(ng-class="getStatusLabel(application.status)") {{application.status}}]
 .btn-group.btn-group-justified(ng-if="application.status == 'WAITING'")
-    a(href="").btn.btn-success.btn-lg Võta vastu
-    a(href="").btn.btn-danger.btn-lg Lükka tagasi
+    a(ng-click="setStatus('ACCEPTED')").btn.btn-success.btn-lg Võta vastu
+    a(ng-click="setStatus('REJECTED')").btn.btn-danger.btn-lg Lükka tagasi
+.panel
+
