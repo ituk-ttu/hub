@@ -23,8 +23,10 @@ router.use(function (req, res, next) {
 );
 
 router.get('', function (req, res) {
-    models.Application.findAll().then(function (applications) {
+    models.Application.findAll({attributes: {exclude: ['password']}}).then(function (applications) {
         res.send(applications);
+    }).catch(function (err) {
+        res.sendStatus(500);
     });
 });
 
@@ -33,7 +35,9 @@ router.get('/:id', function (req, res) {
         .then(function (application) {
                 res.send(application);
             }
-        );
+        ).catch(function (err) {
+            res.sendStatus(500);
+    });
 });
 
 router.patch('/:id/status', function (req, res) {

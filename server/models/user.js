@@ -40,6 +40,12 @@ module.exports = function (sequelize, DataTypes) {
        this.password = bcrypt.hashSync(password);
     };
 
+    User.prototype.toJSON = function () {
+        const values = Object.assign({}, this.get());
+        delete values.password;
+        return values;
+    };
+
     User.associate = function (models) {
         User.hasOne(models.Mentor, {
             onDelete: "CASCADE",

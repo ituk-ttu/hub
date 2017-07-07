@@ -3,19 +3,22 @@ var router = express.Router();
 var jwt = require('jsonwebtoken');
 var models = require('../models/index');
 var randomstring = require("randomstring");
+var bcrypt = require('bcrypt-nodejs');
 
 require('dotenv').config();
 
 router.post('/apply', function (req, res) {
+    var mentorSelectionCode = randomstring.generate(24);
     models.Application.create({
         name: req.body.name,
         personalCode: req.body.personalCode,
         email: req.body.email,
         phone: req.body.phone,
         studentCode: req.body.studentCode,
-        mentorSelectionCode: randomstring.generate(24)
+        status: "WAITING",
+        mentorSelectionCode: bcrypt.hashSync(mentorSelectionCode)
     }).then(function (application) {
-        res.send("Ok.");
+        res.send({id: application.id, mentorSelectionCode: mentorSelectionCode});
     }).catch(function (err) {
         res.sendStatus(400);
     })

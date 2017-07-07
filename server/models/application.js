@@ -33,13 +33,16 @@ module.exports = function(sequelize, DataTypes) {
             onDelete: "NO ACTION",
             as: "processedBy"
         });
-    };
-
-    Application.associate = function (models) {
         Application.belongsTo(models.User, {
             onDelete: "NO ACTION",
             as: "createdBy"
         });
+    };
+
+    Application.prototype.toJSON = function () {
+        const values = Object.assign({}, this.get());
+        delete values.mentorSelectionCode;
+        return values;
     };
 
     return Application;
