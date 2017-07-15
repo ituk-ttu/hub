@@ -3,11 +3,17 @@ app.controller("authController", ["$q", "$scope", "$stateParams", "$rootScope", 
         $scope.working = false;
         $scope.error = false;
         $scope.user = {username: "", password: ""};
-        store.remove('jwt');
+        if (store.get('session-token')) {
+            authService.invalidateSession().then(function (res) {
+                store.remove('session-token');
+            });
+        } else {
+            store.remove('session-token');
+        }
 
         $scope.login = function () {
             authService.password($scope.user.username, $scope.user.password).then(function (res) {
-                store.set("jwt", res.token);
+                store.set("session-token", res.token);
                 $state.go("hub.resourceList");
             });
         }

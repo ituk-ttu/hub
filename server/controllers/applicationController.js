@@ -7,18 +7,11 @@ require('dotenv').config();
 
 router.use(function (req, res, next) {
         var token = req.body.token || req.query.token || req.headers['authorization'];
-        if (token && token.length > 7 && token.substring(0, 7) === "Bearer ") {
-            jwt.verify(token.substring(7), process.env.JWT_SECRET, function (err, decoded) {
-                if (err || !decoded.admin) {
-                    return res.status(403).send("Wrong token.");
-                } else {
-                    req.decoded = decoded;
-                    next();
-                }
-            });
-        } else {
-            return res.status(403).send("No token.");
-        }
+        if (token && token.length === 256) {
+            models.Session.findOne({where: {token: token}, include: [{model: models.User, as: "user"}]})
+                .then(function (session) {req.user = session.user;})
+                .catch(function (err) {res.sendStatus(403);})
+        } else {return res.sendStatus(403);}
     }
 );
 
@@ -44,7 +37,7 @@ router.patch('/:id/status', function (req, res) {
     models.Application.findById(req.params.id).then(function (application) {
         if (application.status === "WAITING" && (req.body.status === "REJECTED" || req.body.status === "ACCEPTED")) {
             application.status = req.body.status;
-            application.processedById = req.decoded.id;
+            application.processedById = req.user.id;
             application.save()
                 .then(function (application) {
                     models.User.create({

@@ -7,18 +7,11 @@ require('dotenv').config();
 
 router.use(function (req, res, next) {
         var token = req.body.token || req.query.token || req.headers['authorization'];
-        if (token && token.length > 7 && token.substring(0, 7) === "Bearer ") {
-            jwt.verify(token.substring(7), process.env.JWT_SECRET, function (err, decoded) {
-                if (err) {
-                    return res.status(403).send("Wrong token.");
-                } else {
-                    req.decoded = decoded;
-                    next();
-                }
-            });
-        } else {
-            return res.status(403).send("No token.");
-        }
+        if (token && token.length === 256) {
+            models.Session.findOne({where: {token: token}, include: [{model: models.User, as: "user"}]})
+                .then(function (session) {req.user = session.user;})
+                .catch(function (err) {res.sendStatus(403);})
+        } else {return res.sendStatus(403);}
     }
 );
 
@@ -35,12 +28,12 @@ router.get('/:id', function (req, res) {
 });
 
 router.post('', function (req, res) {
-    if (req.decoded.admin) {
+    if (req.user.admin) {
         models.Resource.create({
             name: req.body.name,
             comment: req.body.comment,
             url: req.body.url,
-            authorId: req.decoded.id
+            authorId: req.user.id
         });
         res.send("Ok.");
     } else {
@@ -49,7 +42,7 @@ router.post('', function (req, res) {
 });
 
 router.put('/:id', function (req, res) {
-    if (req.decoded.admin) {
+    if (req.user.admin) {
         models.Resource.findById(req.params.id).then(function (resource) {
             resource.name = req.body.name;
             resource.comment = req.body.comment;
@@ -65,7 +58,7 @@ router.put('/:id', function (req, res) {
 });
 
 router.delete('/:id', function (req, res) {
-    if (req.decoded.admin) {
+    if (req.user.admin) {
         models.Resource.findById(req.params.id).then(function (resource) {
             resource.destroy();
             res.send("Ok.");

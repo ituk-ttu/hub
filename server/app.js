@@ -4,10 +4,12 @@ var bodyParser = require('body-parser');
 var jwt = require('jsonwebtoken');
 var cors = require('cors');
 var Sequelize = require('sequelize');
+var useragent = require('express-useragent');
 
 require('dotenv').config();
 
 app.use(cors());
+app.use(useragent.express());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
