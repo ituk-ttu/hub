@@ -42,7 +42,7 @@ router.get('/:id', function (req, res) {
 
 router.patch('/:id/status', function (req, res) {
     models.Application.findById(req.params.id).then(function (application) {
-        if (application.status === "WAITING" && (res.body.status === "REJECTED" || res.body.status === "ACCEPTED")) {
+        if (application.status === "WAITING" && (req.body.status === "REJECTED" || req.body.status === "ACCEPTED")) {
             application.status = req.body.status;
             application.processedById = req.decoded.id;
             application.save()

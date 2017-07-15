@@ -9,9 +9,14 @@
             a.navbar-brand(href="#") Hub | ITÜK
         .collapse.navbar-collapse
             ul.nav.navbar-nav
-                li(ng-if="tokenData.admin"): a(ui-sref="hub.applicationList") Avaldused
                 li: a(ui-sref="hub.resourceList") Ressursid
+                li(ng-if="tokenData.admin"): a(ui-sref="hub.applicationList") Avaldused
+                li: a(ui-sref="hub.resouceList") Mentorid
+                li: a(ui-sref="hub") Kasutajad
             ul.nav.navbar-nav.navbar-right
-                li: a(ui-sref="hub") Seaded
-                li: a(ui-sref="hub") Logi välja ({{tokenData.name}})
+                li.dropdown
+                    a.dropdown-toggle(data-toggle="dropdown" role="button") {{tokenData.name}} #[span.caret]
+                    ul.dropdown-menu(role="menu")
+                        li: a(ui-sref="hub") Seaded
+                        li: a(ui-sref="auth") Logi välja
 .container.content(ui-view)

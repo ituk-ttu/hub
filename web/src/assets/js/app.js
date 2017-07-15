@@ -18,7 +18,6 @@ var app = angular.module("hub", [
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
     $rootScope.refreshingToken = false;
-    $rootScope.tokenData = jwtHelper.decodeToken(store.get('jwt'));
 
     $rootScope.$on('$stateChangeStart', function(e, to, params) {
         if (to.data && to.data.requiresLogin) {
@@ -63,7 +62,7 @@ var app = angular.module("hub", [
             }
         })
         .state("hub.resourceList", {
-            url: "/resources",
+            url: "",
             templateUrl: "templates/hub/resourceList.html",
             controller: "resourceListController",
             data: {

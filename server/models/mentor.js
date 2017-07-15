@@ -25,5 +25,12 @@ module.exports = function(sequelize, DataTypes) {
         }
     });
 
+    Mentor.associate = function (models) {
+        Mentor.belongsTo(models.User, {
+            onDelete: "CASCADE",
+            as: "mentorship"
+        });
+    };
+
     return Mentor;
 };

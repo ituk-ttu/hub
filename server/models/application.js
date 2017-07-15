@@ -33,9 +33,9 @@ module.exports = function(sequelize, DataTypes) {
             onDelete: "NO ACTION",
             as: "processedBy"
         });
-        Application.belongsTo(models.User, {
+        Application.belongsTo(models.Mentor, {
             onDelete: "NO ACTION",
-            as: "createdBy"
+            as: "mentor"
         });
     };
 

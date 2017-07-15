@@ -1,5 +1,7 @@
 app.factory("authService", ["$q", "$http", function($q, $http) {
 
+
+
     function usingPassword(username, password) {
         var deferred = $q.defer();
         $http.post(apiBase + "/authenticate/password", {username: username, password: password})

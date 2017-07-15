@@ -7,7 +7,7 @@ var bcrypt = require('bcrypt-nodejs');
 
 require('dotenv').config();
 
-router.post('/apply', function (req, res) {
+router.post('', function (req, res) {
     var mentorSelectionCode = randomstring.generate(24);
     models.Application.create({
         name: req.body.name,
@@ -24,23 +24,97 @@ router.post('/apply', function (req, res) {
     })
 });
 
-router.get('/mentor', function (req, res) {
-    models.User.findAll({where: {canBeMentor: true},
-                         include: [{model: models.Mentor, as: "mentorship", where: {enabled: true}}],
-                         attributes: {exclude: ['password']}
+router.get('/mentors', function (req, res) {
+    models.Mentor.findAll({
+        where: {enabled: true},
+        include: [
+            {
+                model: models.User,
+                as: "mentorship",
+                where: {
+                    canBeMentor: true,
+                    archived: false
+                },
+                attributes: {
+                    exclude: [
+                        'password', 'createdAt', 'updatedAt', 'email', 'telegram', 'admin', 'archived', 'canBeMentor',
+                        'id'
+                    ]
+                }
+            }
+            ],
+        attributes: {
+            exclude: ['createdAt', 'updatedAt', 'enabled']
+        }
     }).then(function (application) {
         res.send(application);
+    }).catch(function (err) {
+        res.sendStatus(500);
     });
 });
 
-router.post('/apply/mentor/:mentorSelectionCode', function (req, res) {
+router.get('/:id/:mentorSelectionCode', function (req, res) {
+    models.Application.findOne({
+        where: {
+            id: req.params.id
+        },
+        include: [
+            {
+                model: models.Mentor,
+                as: "mentor",
+                include: [
+                    {
+                        model: models.User,
+                        as: "mentorship",
+                        where: {
+                            canBeMentor: true,
+                            archived: false
+                        },
+                        attributes: {
+                            exclude: [
+                                'password', 'createdAt', 'updatedAt', 'email', 'telegram', 'admin', 'archived',
+                                'canBeMentor', 'id'
+                            ]
+                        }
+                    }
+                ],
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt', 'enabled']
+                }
+            }
+        ],
+        attributes: {
+            exclude: [
+                'createdAt', 'updatedAt', 'createdById', 'processedById', 'status', 'personalCode', 'email', 'id',
+                'phone', 'studentCode'
+            ]
+        }
+    }).then(function (application) {
+            if (bcrypt.compareSync(req.params.mentorSelectionCode, application.mentorSelectionCode)) {
+                res.send(application)
+            } else {
+                res.sendStatus(404);
+            }
+        }
+    ).catch(function (err) {
+        res.sendStatus(404);
+    });
+});
+
+router.post('/mentor/:id/:mentorSelectionCode', function (req, res) {
     models.Application.findById(req.params.id).then(function (application) {
-        application.status = req.body.status;
-        application.save().then(function (application) {
-            res.send(application);
-        }).catch(function (err) {
-            res.status(400).send("");
-        });
+        if (bcrypt.compareSync(req.params.mentorSelectionCode, application.mentorSelectionCode)) {
+            application.mentorId = req.body.mentorId;
+            application.save().then(function (application) {
+                res.sendStatus(200);
+            }).catch(function (err) {
+                res.sendStatus(400);
+            });
+        } else {
+            res.sendStatus(404);
+        }
+    }).catch(function (err) {
+        res.sendStatus(404);
     });
 });
 

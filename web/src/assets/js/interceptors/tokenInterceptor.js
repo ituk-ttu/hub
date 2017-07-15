@@ -2,7 +2,8 @@ app.factory('tokenInterceptor', function ($q, jwtHelper, store, $injector, $root
     return {
         response: function (data) {
             var http = $injector.get('$http');
-            if (jwtHelper.getTokenExpirationDate(store.get('jwt')) - new Date() < 60*60*24*1000 && //24h
+            if (store.get('jwt') !== null &&
+                jwtHelper.getTokenExpirationDate(store.get('jwt')) - new Date() < 60*60*24*1000 && //24h
                 data.config.url.indexOf(apiBase + "/authorization") !== 0 &&
                 !jwtHelper.isTokenExpired(store.get('jwt'))) {
                 if ($rootScope.refreshingToken) {

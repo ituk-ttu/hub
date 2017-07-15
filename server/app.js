@@ -24,7 +24,7 @@ app.use('/application', applicationController);
 app.use('/user', userController);
 app.use('/recover', recoveryController);
 app.use('/resource', resourceController);
-app.use('', publicApplicationController);
+app.use('/apply', publicApplicationController);
 
 models.sequelize.sync().then(function() {
     app.listen(process.env.PORT);
