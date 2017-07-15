@@ -13,7 +13,7 @@ app.factory("authService", ["$q", "$http", function($q, $http) {
 
     function invalidateSession() {
         var deferred = $q.defer();
-        $http.post(apiBase + "/authenticate/password", null)
+        $http.post(apiBase + "/authenticate/invalidate", null)
             .success(function(data) {
                 return deferred.resolve(data);
             }).error(function() {

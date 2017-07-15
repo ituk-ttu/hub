@@ -7,7 +7,7 @@ require('dotenv').config();
 
 router.use(function (req, res, next) {
         var token = req.body.token || req.query.token || req.headers['authorization'];
-        if (token && token.length === 256) {
+        if (token && token.length === 255) {
             models.Session.findOne({where: {token: token}, include: [{model: models.User, as: "user"}]})
                 .then(function (session) {req.user = session.user;})
                 .catch(function (err) {res.sendStatus(403);})
