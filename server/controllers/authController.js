@@ -32,7 +32,7 @@ router.post('/invalidate', function (req, res) {
 });
 
 function getUniqueToken() {
-    var token = randomstring.generate(256);
+    var token = randomstring.generate(255);
     models.Session.findOne({where: {token: token}}).then(function (session) {
         if (session === null) {
             return token;
