@@ -12,7 +12,8 @@ router.post('/password', function (req, res) {
             var token = randomstring.generate(255);
             models.Session.create({
                 token: token,
-                agent: req.useragent.os + " | " + req.useragent.browser
+                agent: req.useragent.os + " | " + req.useragent.browser,
+                userId: user.id
             }).then(function (session) {
                 res.send({token: token});
             })

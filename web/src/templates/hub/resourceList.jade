@@ -4,7 +4,7 @@ div(ng-if="tokenData.admin" ng-show="editing == -1"): include mixins/addResource
 div(ng-repeat="resource in resources | orderBy: 'name'")
     div(ng-show="editing != resource.id")
         h3 {{resource.name}}
-            span.pull-right(ng-if="tokenData.admin")
+            span.pull-right(ng-if="$parent.currentUser.admin")
                 button.btn.btn-warning.btn-sm(ng-click="edit(resource)") Muuda
                 button.btn.btn-danger.btn-sm(ng-click="delete(resource)" ng-show="deleting != resource.id") Kustuta
                 button.btn.btn-danger.btn-sm(ng-show="deleting == resource.id" disabled): i.fa.fa-cog.fa-spin-fast

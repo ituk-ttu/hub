@@ -12,16 +12,14 @@ var app = angular.module("hub", [
     "angular-storage",
     'ui.bootstrap',
     "angularMoment",
-    "angular-jwt",
     "ngclipboard"
-]).run(function($rootScope, $state, $stateParams, store, jwtHelper) {
+]).run(function($rootScope, $state, $stateParams, store) {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
-    $rootScope.refreshingToken = false;
 
     $rootScope.$on('$stateChangeStart', function(e, to, params) {
         if (to.data && to.data.requiresLogin) {
-            if (!store.get('jwt') || store.get('jwt') === undefined) {
+            if (!store.get('session-token') || store.get('session-token') === undefined) {
                 e.preventDefault();
                 // TODO: save where user wanted to go
                 $rootScope.navState = to;
@@ -30,17 +28,9 @@ var app = angular.module("hub", [
                 console.log($rootScope.navStateParams);
                 $state.go('auth');
             }
-        } else if (to.data && to.data.requiresAdmin) {
-            if (!store.get('jwt') || store.get('jwt') === undefined) {
-                if (jwtHelper.decodeToken(store.get('jwt')).admin === undefined ||
-                    !jwtHelper.decodeToken(store.get('jwt')).admin) {
-                    e.preventDefault();
-                    $state.go('hub');
-                }
-            }
         }
     });
-}).config(function($stateProvider, $urlRouterProvider, jwtInterceptorProvider, $httpProvider) {
+}).config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 
     $httpProvider.interceptors.push('tokenInterceptor');
 
@@ -64,25 +54,26 @@ var app = angular.module("hub", [
         .state("hub.resourceList", {
             url: "",
             templateUrl: "templates/hub/resourceList.html",
-            controller: "resourceListController",
-            data: {
-                requiresLogin: true
-            }
+            controller: "resourceListController"
         })
         .state("hub.applicationList", {
             url: "/applications",
             templateUrl: "templates/hub/applicationList.html",
-            controller: "applicationListController",
-            data: {
-                requiresAdmin: true
-            }
+            controller: "applicationListController"
         })
         .state("hub.application", {
             url: "/applications/:id",
             templateUrl: "templates/hub/application.html",
-            controller: "applicationController",
-            data: {
-                requiresAdmin: true
-            }
+            controller: "applicationController"
+        })
+        .state("hub.userList", {
+            url: "/users",
+            templateUrl: "templates/hub/userList.html",
+            controller: "userListController"
+        })
+        .state("hub.user", {
+            url: "/users/:id",
+            templateUrl: "templates/hub/user.html",
+            controller: "userController"
         });
 });

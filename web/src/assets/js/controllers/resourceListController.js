@@ -1,9 +1,8 @@
 app.controller("resourceListController", ["$q", "$scope", "$stateParams", "$rootScope", "resourceService",
-    "$state", "store", "jwtHelper", function($q, $scope, $stateParams, $rootScope, resourceService, $state,
-        store, jwtHelper) {
+    "$state", "store", function($q, $scope, $stateParams, $rootScope, resourceService, $state,
+        store) {
         $scope.working = false;
         $scope.resources = [];
-        $scope.tokenData = store.get('jwt') !== null ? jwtHelper.decodeToken(store.get('jwt')) : null;
         $scope.editing = null;
         $scope.new = {};
         $scope.edited = {};

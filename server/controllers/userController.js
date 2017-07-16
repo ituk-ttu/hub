@@ -7,16 +7,20 @@ require('dotenv').config();
 
 router.use(function (req, res, next) {
         var token = req.body.token || req.query.token || req.headers['authorization'];
-        if (token && token.length === 256) {
+        if (token && token.length === 255) {
             models.Session.findOne({where: {token: token}, include: [{model: models.User, as: "user"}]})
-                .then(function (session) {req.user = session.user;})
+                .then(function (session) {req.user = session.user; next();})
                 .catch(function (err) {res.sendStatus(403);})
         } else {return res.sendStatus(403);}
     }
 );
 
+router.get('/me', function (req, res) {
+    res.send(req.user);
+});
+
 router.get('', function (req, res) {
-    models.User.findAll({where: {archived: false}, attributes: {exclude: ['password']}}).then(function (users) {
+    models.User.findAll({attributes: {exclude: ['password']}}).then(function (users) {
         res.send(users);
     });
 });
@@ -33,6 +37,23 @@ router.put('/me', function (req, res) {
         user.email = req.body.email;
         user.telegram = req.body.telegram;
     });
+});
+
+router.put('/:id', function (req, res) {
+    if(user.id === req.params.id || user.admin) {
+        models.User.findById(req.user.id).then(function (user) {
+            user.name = req.body.name;
+            user.email = req.body.email;
+            user.telegram = req.body.telegram;
+            if(user.admin) {
+                user.admin = req.body.admin;
+                user.canBeMentor = req.body.canBeMentor;
+                user.archived = req.body.archived;
+            }
+        });
+    } else {
+        res.sendStatus(403);
+    }
 });
 
 router.put('/me/password', function (req, res) {

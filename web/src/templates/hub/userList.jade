@@ -1,0 +1,30 @@
+h1 Kasutajad
+.table-responsive
+    table.table.table-striped.table-hover.table-list
+        thead
+            tr
+                th ID
+                th Nimi
+                th E-mail
+                th Telegram
+                th Admin
+                th Mentor
+                th Arhiveeritud
+        tbody
+            tr
+                td
+                td: input.input-sm.form-control(type="text" placeholder="Otsi" ng-model="search.name")
+                td: input.input-sm.form-control(type="text" placeholder="Otsi" ng-model="search.email")
+                td: input.input-sm.form-control(type="text" placeholder="Otsi" ng-model="search.telegram")
+                td
+                td
+                td
+            tr.clickable(ng-repeat="user in users | filter: search | userOrderer",
+                             ui-sref="hub.user({id: user.id})")
+                td {{user.id}}
+                td: strong {{user.name}}
+                td {{user.email}}
+                td {{user.telegram}}
+                td: span.label.label-primary(ng-if="user.admin") admin
+                td: span.label.label-success(ng-if="user.canBeMentor") mentor
+                td: span.label.label-danger(ng-if="user.archived") arhiveeritud

@@ -10,12 +10,12 @@
         .collapse.navbar-collapse
             ul.nav.navbar-nav
                 li: a(ui-sref="hub.resourceList") Ressursid
-                li(ng-if="tokenData.admin"): a(ui-sref="hub.applicationList") Avaldused
+                li(ng-if="currentUser.admin"): a(ui-sref="hub.applicationList") Avaldused
                 li: a(ui-sref="hub.resouceList") Mentorid
-                li: a(ui-sref="hub") Kasutajad
+                li: a(ui-sref="hub.userList") Kasutajad
             ul.nav.navbar-nav.navbar-right
                 li.dropdown
-                    a.dropdown-toggle(data-toggle="dropdown" role="button") {{tokenData.name}} #[span.caret]
+                    a.dropdown-toggle(data-toggle="dropdown" role="button") {{currentUser.name}} #[span.caret]
                     ul.dropdown-menu(role="menu")
                         li: a(ui-sref="hub") Seaded
                         li: a(ui-sref="auth") Logi välja

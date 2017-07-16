@@ -1,9 +1,10 @@
-app.factory('tokenInterceptor', function ($q, jwtHelper, store, $injector, $rootScope) {
+app.factory('tokenInterceptor', function ($q, store, $injector, $rootScope) {
     return {
         responseError: function (data) {
             if (data.status === 403) {
                 console.log('Bye!');
                 $injector.get('$state').go('auth');
+                return data;
             } else {
                 return data;
             }

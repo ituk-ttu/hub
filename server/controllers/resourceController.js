@@ -9,7 +9,7 @@ router.use(function (req, res, next) {
         var token = req.body.token || req.query.token || req.headers['authorization'];
         if (token && token.length === 255) {
             models.Session.findOne({where: {token: token}, include: [{model: models.User, as: "user"}]})
-                .then(function (session) {req.user = session.user;})
+                .then(function (session) {req.user = session.user; next();})
                 .catch(function (err) {res.sendStatus(403);})
         } else {return res.sendStatus(403);}
     }
@@ -18,12 +18,16 @@ router.use(function (req, res, next) {
 router.get('', function (req, res) {
     models.Resource.findAll().then(function (resources) {
         res.send(resources);
+    }).catch(function (err) {
+        res.sendStatus(500);
     });
 });
 
 router.get('/:id', function (req, res) {
     models.Resource.findById(req.params.id).then(function (resource) {
         res.send(resource);
+    }).catch(function (err) {
+        res.sendStatus(500);
     });
 });
 

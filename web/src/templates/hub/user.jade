@@ -1,0 +1,2 @@
+span(ng-if="!$parent.currentUser.admin"): include mixins/userStatic
+span(ng-if="$parent.currentUser.admin"): include mixins/userEdit

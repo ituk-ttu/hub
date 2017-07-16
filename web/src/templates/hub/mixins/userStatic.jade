@@ -1,0 +1,20 @@
+h1 {{user.name}}
+.well.well-lg
+    p
+        strong E-mail:
+        |  {{user.email}}
+    p
+        strong Telegram:
+        |  {{user.telegram}}
+    p
+        strong Admin:
+        |  #[span.label.label-primary(ng-if="user.admin") admin]
+        |  #[span.label.label-default(ng-if="!user.admin") nope]
+    p
+        strong Mentor:
+        |  #[span.label.label-success(ng-if="user.canBeMentor") mentor]
+        |  #[span.label.label-default(ng-if="!user.canBeMentor") nope]
+    p
+        strong Arhiveeritud:
+        |  #[span.label.label-danger(ng-if="user.archived") arhiveeritud]
+        |  #[span.label.label-default(ng-if="!user.archived") nope]

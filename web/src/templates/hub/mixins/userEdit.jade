@@ -1,0 +1,35 @@
+form(ng-submit="save()")
+    .form-group
+        label.control-label Nimi
+        input.form-control(ng-model="user.name" type="text" ng-disabled="working")
+    .form-group
+        label.control-label E-mail
+        input.form-control(ng-model="user.email" type="text" ng-disabled="working")
+    .form-group
+        label.control-label Telegram
+        input.form-control(ng-model="user.telegram" type="text" ng-disabled="working")
+    div
+        label.control-label Admin
+    .btn-group.form-group
+        button.btn(ng-class="user.admin ? 'btn-primary' : 'btn-default'" ng-click="user.admin = true"
+                   ng-disabled="working") jah
+        button.btn(ng-class="!user.admin ? 'btn-primary' : 'btn-default'" ng-click="user.admin = false"
+                   ng-disabled="working") ei
+    div
+        label.control-label Mentor
+    .btn-group.form-group
+        button.btn(ng-class="user.canBeMentor ? 'btn-primary' : 'btn-default'" ng-click="user.canBeMentor = true"
+                   ng-disabled="working") jah
+        button.btn(ng-class="!user.canBeMentor ? 'btn-primary' : 'btn-default'" ng-click="user.canBeMentor = false"
+                   ng-disabled="working") ei
+    div
+        label.control-label Arhiveeritud
+    .btn-group.form-group
+        button.btn(ng-class="user.archived ? 'btn-primary' : 'btn-default'" ng-click="user.archived = true"
+                   ng-disabled="working") jah
+        button.btn(ng-class="!user.archived ? 'btn-primary' : 'btn-default'" ng-click="user.archived = false"
+                   ng-disabled="working") ei
+    .from-group
+        button.btn.btn-success(type="submit" ng-if="!working") Salvesta
+        button.btn.btn-success(ng-if="working" disabled): i.fa.fa-cog.fa-spin-fast
+        button.btn.btn-danger(ng-click="init()" ng-disabled="working") Taasta
