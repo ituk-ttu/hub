@@ -40,16 +40,23 @@ router.put('/me', function (req, res) {
 });
 
 router.put('/:id', function (req, res) {
-    if(user.id === req.params.id || user.admin) {
-        models.User.findById(req.user.id).then(function (user) {
+    if(req.user.id === req.params.id || req.user.admin) {
+        models.User.findById(req.params.id).then(function (user) {
             user.name = req.body.name;
             user.email = req.body.email;
             user.telegram = req.body.telegram;
-            if(user.admin) {
+            if(req.user.admin) {
                 user.admin = req.body.admin;
                 user.canBeMentor = req.body.canBeMentor;
                 user.archived = req.body.archived;
             }
+            user.save().then(function () {
+                res.sendStatus(200);
+            }).catch(function (err) {
+                res.sendStatus(500);
+            });
+        }).catch(function (err) {
+            res.sendStatus(500);
         });
     } else {
         res.sendStatus(403);

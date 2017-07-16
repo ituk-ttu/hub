@@ -12,24 +12,24 @@ form(ng-submit="save()")
         label.control-label Admin
     .btn-group.form-group
         button.btn(ng-class="user.admin ? 'btn-primary' : 'btn-default'" ng-click="user.admin = true"
-                   ng-disabled="working") jah
+                   ng-disabled="working" type="button") jah
         button.btn(ng-class="!user.admin ? 'btn-primary' : 'btn-default'" ng-click="user.admin = false"
-                   ng-disabled="working") ei
+                   ng-disabled="working" type="button") ei
     div
         label.control-label Mentor
     .btn-group.form-group
         button.btn(ng-class="user.canBeMentor ? 'btn-primary' : 'btn-default'" ng-click="user.canBeMentor = true"
-                   ng-disabled="working") jah
+                   ng-disabled="working" type="button") jah
         button.btn(ng-class="!user.canBeMentor ? 'btn-primary' : 'btn-default'" ng-click="user.canBeMentor = false"
-                   ng-disabled="working") ei
+                   ng-disabled="working" type="button") ei
     div
         label.control-label Arhiveeritud
     .btn-group.form-group
         button.btn(ng-class="user.archived ? 'btn-primary' : 'btn-default'" ng-click="user.archived = true"
-                   ng-disabled="working") jah
+                   ng-disabled="working" type="button") jah
         button.btn(ng-class="!user.archived ? 'btn-primary' : 'btn-default'" ng-click="user.archived = false"
-                   ng-disabled="working") ei
+                   ng-disabled="working" type="button") ei
     .from-group
         button.btn.btn-success(type="submit" ng-if="!working") Salvesta
         button.btn.btn-success(ng-if="working" disabled): i.fa.fa-cog.fa-spin-fast
-        button.btn.btn-danger(ng-click="init()" ng-disabled="working") Taasta
+        button.btn.btn-danger(ng-click="init()" ng-disabled="working" type="button") Taasta
