@@ -3,10 +3,8 @@ app.factory("applicationService", ["$q", "$http", function($q, $http) {
     function get (id) {
         var deferred = $q.defer();
         $http.get(apiBase + "/application/" + id)
-            .success(function(data) {
+            .then(function(data) {
                 return deferred.resolve(data);
-            }).error(function() {
-            //TODO: implement error handling
         });
         return deferred.promise;
     }
@@ -14,10 +12,8 @@ app.factory("applicationService", ["$q", "$http", function($q, $http) {
     function getAll () {
         var deferred = $q.defer();
         $http.get(apiBase + "/application")
-            .success(function(data) {
+            .then(function(data) {
                 return deferred.resolve(data);
-            }).error(function() {
-            //TODO: implement error handling
         });
         return deferred.promise;
     }
@@ -25,10 +21,8 @@ app.factory("applicationService", ["$q", "$http", function($q, $http) {
     function setStatus(id, status) {
         var deferred = $q.defer();
         $http.patch(apiBase + "/application/" + id + "/status", {status: status})
-            .success(function(data) {
+            .then(function(data) {
                 return deferred.resolve(data);
-            }).error(function() {
-            //TODO: implement error handling
         });
         return deferred.promise;
     }

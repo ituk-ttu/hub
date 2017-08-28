@@ -1,0 +1,18 @@
+h3 Aktiivsed sessioonid
+.table-responsive
+    table.table.table-striped
+        thead
+            tr
+                th ID
+                th Selgitus
+                th Loodud
+                th Kustuta
+        tbody
+            tr(ng-repeat="session in sessions")
+                td {{session.id}}
+                td {{session.agent}}
+                td {{session.createdAt | amDateFormat:'HH:mm DD.MM.YYYY'}}
+                td
+                    a.btn.btn-danger.btn-xs(ng-if="deleting != session.id" ng-click="invalidateSession(session)")
+                        | Kustuta
+                    button.btn.btn-danger.btn-xs(ng-if="deleting == session.id" disabled): i.fa.fa-cog.fa-spin-fast

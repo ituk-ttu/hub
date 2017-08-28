@@ -65,14 +65,16 @@ router.put('/:id', function (req, res) {
 
 router.put('/me/password', function (req, res) {
     models.User.findById(req.user.id).then(function (user) {
-        if (user.checkPassword(req.body.oldPassword) && req.body.newPassword === req.body.newPasswordConfirm) {
-            user.setPassword(req.body.newPassword);
+        if (user.checkPassword(req.body.old) && req.body.new === req.body.newConfirm && req.body.new.length > 7) {
+            user.setPassword(req.body.new);
             user.save().then(function (user) {
                 res.send("Ok.");
             })
         } else {
             res.status(403).send("");
         }
+    }).catch(function (err) {
+        res.sendStatus(500);
     });
 });
 

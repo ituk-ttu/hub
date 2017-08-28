@@ -25,12 +25,52 @@ router.post('/password', function (req, res) {
     });
 });
 
+router.get('/sessions', function (req, res) {
+    var token = req.body.token || req.query.token || req.headers['authorization'];
+    if (token && token.length === 255) {
+        models.Session.findOne({where: {token: token}, include: [{model: models.User, as: "user"}]})
+            .then(function (session) {
+                models.Session.findAll({where: {userId: session.userId}}).then(function (sessions) {
+                    res.send(sessions);
+                }).catch(function (err) {
+                    res.sendStatus(500);
+                })
+            })
+            .catch(function (err) {
+                res.sendStatus(403);
+            })
+    } else {
+        return res.sendStatus(403);
+    }
+});
+
 router.post('/invalidate', function (req, res) {
     var token = req.body.token || req.query.token || req.headers['authorization'];
     if (token && token.length === 255) {
-        models.Session.destroy({where: {token: token}}).then(function () {
-            res.sendStatus(200);
-        })
+        if (req.body.id && req.body.id !== null) {
+            models.Session.findOne({where: {token: token}})
+                .then(function (activeSession) {
+                    models.Session.findOne({where: {id: req.body.id}})
+                        .then(function (session) {
+                            if (activeSession.userId === session.userId) {
+                                session.destroy();
+                                res.sendStatus(200);
+                            } else {
+                                res.sendStatus(403);
+                            }
+                        })
+                        .catch(function (err) {
+                            res.sendStatus(403);
+                        })
+                })
+                .catch(function (err) {
+                    res.sendStatus(403);
+                })
+        } else {
+            models.Session.destroy({where: {token: token}}).then(function () {
+                res.sendStatus(200);
+            })
+        }
     } else res.sendStatus(400);
 });
 

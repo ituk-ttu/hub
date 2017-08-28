@@ -14,9 +14,6 @@ module.exports = function(sequelize, DataTypes) {
         email: {
             type: DataTypes.STRING
         },
-        phone: {
-            type: DataTypes.STRING
-        },
         studentCode: {
             type: DataTypes.STRING
         },

@@ -10,7 +10,7 @@ app.controller("resourceListController", ["$q", "$scope", "$stateParams", "$root
 
         var init = function () {
             resourceService.getAll().then(function (resources) {
-                $scope.resources = resources;
+                $scope.resources = resources.data;
             });
 
         };
@@ -35,6 +35,11 @@ app.controller("resourceListController", ["$q", "$scope", "$stateParams", "$root
                 init();
                 $scope.working = false;
                 $scope.editing = null;
+                new Noty({
+                    type: 'success',
+                    text: 'Salvestatud!',
+                    timeout: 500
+                }).show();
             });
         };
 

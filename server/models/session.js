@@ -1,8 +1,12 @@
 module.exports = function(sequelize, DataTypes) {
     var Session = sequelize.define('Session', {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true
+        },
         token: {
             type: DataTypes.STRING,
-            primaryKey: true,
             unique: true
         },
         agent: {

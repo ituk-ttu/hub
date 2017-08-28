@@ -16,7 +16,7 @@ app.filter('applicationOrderer', function() {
     return function(items) {
         items.sort(function (a, b) {
             if (getPriority(a) === getPriority(b)) {
-                return a.id - b.id;
+                return b.id - a.id;
             } else {
                 return getPriority(a) - getPriority(b);
             }

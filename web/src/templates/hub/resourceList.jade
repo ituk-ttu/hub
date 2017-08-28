@@ -1,6 +1,6 @@
 h1 Ressursid
-button.btn.btn-success(ng-if="tokenData.admin" ng-click="addNew()" ng-show="editing != -1") Lisa uus
-div(ng-if="tokenData.admin" ng-show="editing == -1"): include mixins/addResource
+button.btn.btn-success(ng-if="$parent.currentUser.admin" ng-click="addNew()" ng-show="editing != -1") Lisa uus
+div(ng-if="$parent.currentUser.admin" ng-show="editing == -1"): include mixins/addResource
 div(ng-repeat="resource in resources | orderBy: 'name'")
     div(ng-show="editing != resource.id")
         h3 {{resource.name}}

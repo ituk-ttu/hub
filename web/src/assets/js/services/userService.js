@@ -4,10 +4,8 @@ app.factory("userService", ["$q", "$http", function($q, $http) {
         var deferred = $q.defer();
         if (id === undefined || id === null) id = "me";
         $http.get(apiBase + "/user/" + id)
-            .success(function(data) {
+            .then(function(data) {
                 return deferred.resolve(data);
-            }).error(function() {
-            //TODO: implement error handling
         });
         return deferred.promise;
     }
@@ -15,10 +13,8 @@ app.factory("userService", ["$q", "$http", function($q, $http) {
     function getAll () {
         var deferred = $q.defer();
         $http.get(apiBase + "/user")
-            .success(function(data) {
+            .then(function(data) {
                 return deferred.resolve(data);
-            }).error(function() {
-            //TODO: implement error handling
         });
         return deferred.promise;
     }
@@ -26,10 +22,8 @@ app.factory("userService", ["$q", "$http", function($q, $http) {
     function create(user) {
         var deferred = $q.defer();
         $http.post(apiBase + "/user", user)
-            .success(function(data) {
+            .then(function(data) {
                 return deferred.resolve(data);
-            }).error(function() {
-            //TODO: implement error handling
         });
         return deferred.promise;
     }
@@ -37,21 +31,17 @@ app.factory("userService", ["$q", "$http", function($q, $http) {
     function save(user) {
         var deferred = $q.defer();
         $http.put(apiBase + "/user/" + user.id, user)
-            .success(function(data) {
+            .then(function(data) {
                 return deferred.resolve(data);
-            }).error(function() {
-            //TODO: implement error handling
         });
         return deferred.promise;
     }
 
-    function destroy(id) {
+    function savePassword(password) {
         var deferred = $q.defer();
-        $http.delete(apiBase + "/user/" + id)
-            .success(function(data) {
+        $http.put(apiBase + "/user/me/password", password)
+            .then(function(data) {
                 return deferred.resolve(data);
-            }).error(function() {
-            //TODO: implement error handling
         });
         return deferred.promise;
     }
@@ -69,8 +59,8 @@ app.factory("userService", ["$q", "$http", function($q, $http) {
         save: function (user) {
             return save(user);
         },
-        delete: function (user) {
-            return destroy(user.id);
+        savePassword: function (password) {
+            return savePassword(password);
         }
     }
 }]);

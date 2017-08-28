@@ -1,0 +1,45 @@
+h1 {{mentor.mentorship.name}}
+.row
+    .well.col-md-8.col-sm-6.col-lg-8.col-xs-12
+        form(ng-submit="save()")
+            .form-group(ng-class="mentor.photo.filesize > 307200 ? 'has-error' : ''")
+                label.control-label Pilt
+                    small.text-muted  (mitte suurem kui 300kb, eelistatud ruudu kujuline)
+                input.form-control(ng-model="mentor.photo" type='file' ng-disabled="working" base-sixty-four-input
+                                   accept="image/*" maxsize="300")
+            .form-group
+                label.control-label Eriala
+                    small.text-muted  (Ametlik õppekava nimi)
+                input.form-control(ng-model="mentor.curriculum" type="text" ng-disabled="working")
+            .form-group
+                label.control-label Sinust
+                textarea.form-control(ng-model="mentor.text" rows="4" ng-disabled="working")
+            .form-group
+                label.control-label Lemmik GIF
+                    small.text-muted  (URL)
+                input.form-control(ng-model="mentor.gif" type="text" ng-disabled="working")
+            .form-group
+                label.control-label Tsitaat
+                input.form-control(ng-model="mentor.quote" type="text" ng-disabled="working")
+            .form-group
+                label.control-label Avalik
+                .btn-group
+                    button.btn(ng-class="mentor.enabled ? 'btn-primary' : 'btn-default'" ng-click="mentor.enabled = true"
+                    ng-disabled="working" type="button") jah
+                    button.btn(ng-class="!mentor.enabled ? 'btn-primary' : 'btn-default'" ng-click="mentor.enabled = false"
+                    ng-disabled="working" type="button") ei
+            .form-group
+                button.btn.btn-success(type="submit" ng-disabled="working || mentor.photo.filesize > 307200") Salvesta
+                button.btn.btn-danger(type="button" ng-click="reset()" ng-disabled="working") Taasta
+    .col-md-4.col-lg-4.col-sm-6.hidden-xs.mentor-select.mentors
+        .mentor.mentor-preview
+            img.mentor-photo(data-ng-src="data:image/png;base64,{{photo}}")
+            .mentor-info
+                p.mentor-name {{mentor.mentorship.name}}
+                p.mentor-curriculum {{mentor.curriculum}}
+                p.mentor-description {{mentor.text}}
+                a.gif-btn(ng-click="openGif = true" ng-if="openGif != true") Lemmik GIF +
+                a.gif-btn(ng-click="openGif = false" ng-if="openGif == true") Lemmik GIF -
+                img.mentor-gif(ng-if="openGif == true" ng-src="{{mentor.gif}}")
+                p.mentor-quote: em {{mentor.quote}}
+                a.btn.btn-primary.btn-block.disabled Vali

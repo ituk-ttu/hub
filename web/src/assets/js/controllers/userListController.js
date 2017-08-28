@@ -6,7 +6,7 @@ app.controller("userListController", ["$q", "$scope", "$stateParams", "$rootScop
 
         var init = function () {
             userService.getAll().then(function (users) {
-                $scope.users = users;
+                $scope.users = users.data;
             })
         };
 

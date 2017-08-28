@@ -1,73 +1,68 @@
-app.controller("resourceListController", ["$q", "$scope", "$stateParams", "$rootScope", "resourceService",
-    "$state", "store", function($q, $scope, $stateParams, $rootScope, resourceService, $state,
-        store) {
-        $scope.working = false;
-        $scope.resources = [];
-        $scope.editing = null;
-        $scope.new = {};
-        $scope.edited = {};
+app.controller("settingsController", ["$q", "$scope", "$stateParams", "$rootScope", "settingsService", "userService",
+    "$state", "store", "Notification", function($q, $scope, $stateParams, $rootScope, settingsService, userService,
+        $state, store, Notification) {
+        $scope.working = {
+            info: false,
+            password: false
+        };
+        $scope.sessions = [];
         $scope.deleting = null;
+        $scope.user = null;
 
-        var init = function () {
-            resourceService.getAll().then(function (resources) {
-                $scope.resources = resources;
+        function loadSessions() {
+            settingsService.getAllSessions().then(function (sessions) {
+                $scope.sessions = sessions.data;
+            })
+        }
+
+        function loadUser() {
+            userService.get().then(function (user) {
+                $scope.user = user.data;
             });
+        }
 
+        function init() {
+            loadSessions();
+            loadUser();
+        }
+
+        $scope.resetInfo = function () {
+            loadUser();
         };
 
-        $scope.addNew = function () {
-            $scope.new = {
-                name: "",
-                comment: "",
-                url: ""
-            };
-            $scope.editing = -1;
-        };
-
-        $scope.edit = function (resource) {
-            $scope.edited = resource;
-            $scope.editing = resource.id;
-        };
-
-        $scope.createNew = function () {
-            $scope.working = true;
-            resourceService.create($scope.new).then(function (res) {
-                init();
-                $scope.working = false;
-                $scope.editing = null;
-            });
-        };
-
-        $scope.save = function () {
-            $scope.working = true;
-            resourceService.save($scope.edited).then(function (res) {
-                init();
-                $scope.working = false;
-                $scope.editing = null;
-            });
-        };
-
-        $scope.delete = function (resource) {
-            $scope.deleting = resource.id;
-            swal({
-                title: 'Oled kindel?',
-                text: "Ressurss " + resource.name + " kustutatakse",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonClass: 'btn btn-danger btn-popup',
-                cancelButtonClass: 'btn btn-default btn-popup',
-                confirmButtonText: 'Jah, kustuta',
-                cancelButtonText: 'Katkesta',
-                buttonsStyling: false
+        $scope.saveInfo = function () {
+            $scope.working.info = true;
+            userService.save({
+                id: $scope.user.id,
+                name: $scope.user.name,
+                email: $scope.user.email,
+                telegram: $scope.user.telegram
             }).then(function () {
-                resourceService.delete(resource).then(function (res) {
-                    init();
-                    $scope.deleting = null;
-                });
-            }, function () {
+                $scope.working.info = false;
+                Notification.success("Andmed salvestatud!");
+            })
+        };
+
+        $scope.savePassword = function () {
+            $scope.working.password = true;
+            userService.savePassword({
+                old: $scope.password.old,
+                new: $scope.password.new,
+                newConfirm: $scope.password.newConfirm
+            }).then(function () {
+                $scope.working.password = false;
+                Notification.success("Parool uuendatud!");
+            })
+        };
+
+        $scope.invalidateSession = function (session) {
+            $scope.deleting = session.data.id;
+            settingsService.invalidateSession(session.data.id).then(function (res) {
                 $scope.deleting = null;
-                $scope.$apply();
-            });
+                loadSessions();
+            }).catch(function (err) {
+                $scope.deleting = null;
+            })
         };
 
         init();

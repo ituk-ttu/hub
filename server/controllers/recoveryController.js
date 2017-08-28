@@ -23,16 +23,16 @@ router.post('', function (req, res) {
                 userId: user.id
             }).then(function (recoveryKey) {
                     sendRecoveryMail(key, recoveryKey.id, user);
-                    res.send("Ok.");
+                    res.sendStatus(200);
                 }
             ).catch(function (err) {
-                res.status(403).send("");
+                res.sendStatus(200);
             });
         } else {
-            res.status(403).send("");
+            res.sendStatus(200);
         }
     }).catch(function (err) {
-        res.status(403).send("");
+        res.sendStatus(200);
     });
 });
 

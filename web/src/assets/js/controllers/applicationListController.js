@@ -6,7 +6,7 @@ app.controller("applicationListController", ["$q", "$scope", "$stateParams", "$r
 
         var init = function () {
             applicationService.getAll().then(function (applications) {
-                $scope.applications = applications;
+                $scope.applications = applications.data;
             })
         };
 
@@ -23,6 +23,27 @@ app.controller("applicationListController", ["$q", "$scope", "$stateParams", "$r
             }
         };
 
+        $scope.getTableRowClass = function (application) {
+            if (application.status === "WAITING") {
+                if (application.mentor === null) {
+                    return "info";
+                } else {
+                    return "success";
+                }
+            } else {
+                return "";
+            }
+        };
+
         init();
+
+        $scope.$watch('search.mentor.mentorship.name', function() {
+            if ($scope.search !== undefined && $scope.search.mentor !== undefined &&
+                $scope.search.mentor.mentorship !== undefined && $scope.search.mentor.mentorship.name === "") {
+                delete $scope.search.mentor.mentorship.name;
+                delete $scope.search.mentor.mentorship;
+                delete $scope.search.mentor;
+            }
+        });
 
     }]);

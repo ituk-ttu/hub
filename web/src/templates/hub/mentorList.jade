@@ -1,0 +1,19 @@
+h1 Mentorid
+    a.pull-right.btn.btn-success(ui-sref="hub.mentorProfile({id: $parent.currentUser.id})"
+                                 ng-if="$parent.currentUser.canBeMentor") Minu profiil
+.mentor-select
+    .row.mentors
+        .col-lg-4.col-sm-6.col-xs-12(ng-repeat="mentor in mentors")
+            .mentor(ng-class="mentor.enabled ? '' : 'mentor-disabled'")
+                img.mentor-photo(data-ng-src="data:image/png;base64,{{mentor.photo}}")
+                .mentor-info
+                    p.mentor-name {{mentor.mentorship.name}}
+                    p.mentor-curriculum {{mentor.curriculum}}
+                    p.mentor-description {{mentor.text}}
+                    a.gif-btn(ng-click="openGifs[mentor.id] = true" ng-if="openGifs[mentor.id] != true") Lemmik GIF +
+                    a.gif-btn(ng-click="openGifs[mentor.id] = false" ng-if="openGifs[mentor.id] == true") Lemmik GIF -
+                    img.mentor-gif(ng-if="openGifs[mentor.id] == true" ng-src="{{mentor.gif}}")
+                    p.mentor-quote: em {{mentor.quote}}
+                    a.btn.btn-primary.btn-block.disabled(ng-if="!$parent.currentUser.admin") Vali
+                    a.btn.btn-primary.btn-block(ng-if="$parent.currentUser.admin"
+                                                ui-sref="hub.mentorProfile({id: mentor.mentorshipId})") Muuda

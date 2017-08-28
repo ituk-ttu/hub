@@ -2,11 +2,13 @@
     h2.text-center Hub | ITÜK
     .well.well-lg
         form(ng-submit="login()")
-            .from-group
+            .form-group
                 label.control-label E-mail
                 input.form-control(type="text" ng-model="user.username")
-            .from-group
+            .form-group
                 label.control-label Parool
                 input.form-control(type="password" ng-model="user.password")
             .form-group
                 button.btn.btn-success.btn-block Logi sisse
+            .form-group.text-center
+                a(ui-sref="recoverPassword({email: user.username})") Unustasid parooli?

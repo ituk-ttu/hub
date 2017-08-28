@@ -4,7 +4,7 @@ app.controller("hubController", ["$q", "$scope", "$stateParams", "$rootScope", "
 
         $scope.reloadUser = function() {
             userService.get().then(function (user) {
-                $scope.currentUser = user;
+                $scope.currentUser = user.data;
             });
         };
 

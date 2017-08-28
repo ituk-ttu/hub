@@ -1,12 +1,12 @@
 app.controller("applicationController", ["$q", "$scope", "$stateParams", "$rootScope", "applicationService",
-    "$state", function($q, $scope, $stateParams, $rootScope, applicationService, $state) {
+    "$state", function ($q, $scope, $stateParams, $rootScope, applicationService, $state) {
         $scope.working = true;
         $scope.error = false;
         $scope.application = {};
 
         var init = function () {
             applicationService.get($stateParams.id).then(function (application) {
-                $scope.application = application;
+                $scope.application = application.data;
             })
         };
 
@@ -38,7 +38,7 @@ app.controller("applicationController", ["$q", "$scope", "$stateParams", "$rootS
             if (status === "REJECTED") {
                 swal({
                     title: 'Lükka tagasi?',
-                    text: "Advaldus (" + resource.name + ") lükatakse tagasi. Seda hiljem muuta pole võimalik!",
+                    text: "Avaldus (" + $scope.application.name + ") lükatakse tagasi. Seda hiljem muuta pole võimalik!",
                     type: 'warning',
                     showCancelButton: true,
                     confirmButtonClass: 'btn btn-danger btn-popup',
@@ -48,12 +48,12 @@ app.controller("applicationController", ["$q", "$scope", "$stateParams", "$rootS
                     buttonsStyling: false
                 }).then(function () {
                     applicationService.setStatus($scope.application.id, status).then(function (application) {
-                        $scope.application = application;
+                        $scope.application = application.data;
                     });
                 });
             } else if (status === 'ACCEPTED') {
                 applicationService.setStatus($scope.application.id, status).then(function (application) {
-                    $scope.application = application;
+                    $scope.application = application.data;
                 });
             }
         };

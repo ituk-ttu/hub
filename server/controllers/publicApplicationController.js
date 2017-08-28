@@ -13,7 +13,6 @@ router.post('', function (req, res) {
         name: req.body.name,
         personalCode: req.body.personalCode,
         email: req.body.email,
-        phone: req.body.phone,
         studentCode: req.body.studentCode,
         status: "WAITING",
         mentorSelectionCode: bcrypt.hashSync(mentorSelectionCode)
@@ -86,7 +85,7 @@ router.get('/:id/:mentorSelectionCode', function (req, res) {
         attributes: {
             exclude: [
                 'createdAt', 'updatedAt', 'createdById', 'processedById', 'status', 'personalCode', 'email', 'id',
-                'phone', 'studentCode'
+                'studentCode'
             ]
         }
     }).then(function (application) {

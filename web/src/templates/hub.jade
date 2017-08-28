@@ -11,12 +11,13 @@
             ul.nav.navbar-nav
                 li: a(ui-sref="hub.resourceList") Ressursid
                 li(ng-if="currentUser.admin"): a(ui-sref="hub.applicationList") Avaldused
-                li: a(ui-sref="hub.resouceList") Mentorid
+                li: a(ui-sref="hub.mentorList") Mentorid
                 li: a(ui-sref="hub.userList") Kasutajad
             ul.nav.navbar-nav.navbar-right
                 li.dropdown
                     a.dropdown-toggle(data-toggle="dropdown" role="button") {{currentUser.name}} #[span.caret]
                     ul.dropdown-menu(role="menu")
-                        li: a(ui-sref="hub") Seaded
+                        li: a(ui-sref="hub.settings") Sätted
+                        li(ng-if="currentUser.canBeMentor"): a(ui-sref="hub.mentorProfile") Mentori profiil
                         li: a(ui-sref="auth") Logi välja
 .container.content(ui-view)

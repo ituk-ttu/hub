@@ -12,7 +12,9 @@ var app = angular.module("hub", [
     "angular-storage",
     'ui.bootstrap',
     "angularMoment",
-    "ngclipboard"
+    "ngclipboard",
+    'naif.base64',
+    'ui-notification'
 ]).run(function($rootScope, $state, $stateParams, store) {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
@@ -30,9 +32,19 @@ var app = angular.module("hub", [
             }
         }
     });
-}).config(function($stateProvider, $urlRouterProvider, $httpProvider) {
+}).config(function($stateProvider, $urlRouterProvider, $httpProvider, NotificationProvider) {
 
     $httpProvider.interceptors.push('tokenInterceptor');
+
+    NotificationProvider.setOptions({
+        delay: 3000,
+        startTop: 20,
+        startRight: 20,
+        verticalSpacing: 20,
+        horizontalSpacing: 20,
+        positionX: 'left',
+        positionY: 'bottom'
+    });
 
     $urlRouterProvider
         .otherwise("/hub");
@@ -41,6 +53,19 @@ var app = angular.module("hub", [
             url: "/auth",
             templateUrl: "templates/auth.html",
             controller: "authController"
+        })
+        .state("recoverPassword", {
+            url: "/recover",
+            templateUrl: "templates/recoverPassword.html",
+            controller: "recoverPasswordController",
+            params: {
+                email: null
+            }
+        })
+        .state("recoverPasswordComplete", {
+            url: "/recover/:id/:key",
+            templateUrl: "templates/recoverPasswordComplete.html",
+            controller: "recoverPasswordCompleteController"
         })
         .state("hub", {
             url: "/hub",
@@ -75,5 +100,20 @@ var app = angular.module("hub", [
             url: "/users/:id",
             templateUrl: "templates/hub/user.html",
             controller: "userController"
+        })
+        .state("hub.settings", {
+            url: "/settings",
+            templateUrl: "templates/hub/settings.html",
+            controller: "settingsController"
+        })
+        .state("hub.mentorList", {
+            url: "/mentors",
+            templateUrl: "templates/hub/mentorList.html",
+            controller: "mentorListController"
+        })
+        .state("hub.mentorProfile", {
+            url: "/mentors/profile/:id",
+            templateUrl: "templates/hub/mentorProfile.html",
+            controller: "mentorProfileController"
         });
 });

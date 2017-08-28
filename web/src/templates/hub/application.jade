@@ -5,14 +5,16 @@ h1(ng-class="getNameClass(application.status)") {{application.name}}
         strong E-mail:
         |  {{application.email}}
     p
-        strong Telefon:
-        |  {{application.phone}}
-    p
-        strong Tudenikood:
+        strong Tudengikood:
         |  {{application.studentCode}}
     p
         strong Staatus:
         |  #[span.label(ng-class="getStatusLabel(application.status)") {{application.status}}]
+    p
+        strong Mentor:
+        strong.text-danger(ng-if="application.mentor == null")  Pole valitud.
+        strong.text-success(ng-if="application.mentor != null")  {{application.mentor.mentorship.name}}
+
 .btn-group.btn-group-justified(ng-if="application.status == 'WAITING'")
     a(ng-click="setStatus('ACCEPTED')").btn.btn-success.btn-lg Võta vastu
     a(ng-click="setStatus('REJECTED')").btn.btn-danger.btn-lg Lükka tagasi

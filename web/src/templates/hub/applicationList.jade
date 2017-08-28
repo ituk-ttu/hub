@@ -1,4 +1,8 @@
 h1 Avaldused
+div
+    span.label.label-info mentor valimata
+div
+    span.label.label-success mentor valitud
 .table-responsive
     table.table.table-striped.table-hover.table-list
         thead
@@ -7,8 +11,8 @@ h1 Avaldused
                 th Nimi
                 th Isikukood
                 th E-mail
-                th Telefoni number
                 th Tudengikood
+                th Mentor
                 th Saadetud
                 th Staatus
         tbody
@@ -17,18 +21,20 @@ h1 Avaldused
                 td: input.input-sm.form-control(type="text" placeholder="Otsi" ng-model="search.name")
                 td: input.input-sm.form-control(type="text" placeholder="Otsi" ng-model="search.personalCode")
                 td: input.input-sm.form-control(type="text" placeholder="Otsi" ng-model="search.email")
-                td: input.input-sm.form-control(type="text" placeholder="Otsi" ng-model="search.phone")
                 td: input.input-sm.form-control(type="text" placeholder="Otsi" ng-model="search.studentCode")
+                td: input.input-sm.form-control(type="text" placeholder="Otsi" ng-model="search.mentor.mentorship.name")
                 td
                 td
             tr.clickable(ng-repeat="application in applications | filter: search | applicationOrderer",
                              ui-sref="hub.application({id: application.id})"
-                             ng-class="application.status == 'WAITING' ? 'success' : ''")
+                             ng-class="getTableRowClass(application)")
                 td {{application.id}}
                 td: strong {{application.name}}
                 td {{application.personalCode}}
                 td {{application.email}}
-                td {{application.phone}}
                 td {{application.studentCode}}
+                td
+                    span(ng-if="application.mentor == null").text-muted Pole valinud
+                    span(ng-if="application.mentor != null") {{application.mentor.mentorship.name}}
                 td {{application.createdAt | amDateFormat:'HH:mm DD.MM.YYYY'}}
                 td: span.label(ng-class="getStatusLabel(application.status)") {{application.status}}

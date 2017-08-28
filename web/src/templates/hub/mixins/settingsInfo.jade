@@ -1,0 +1,15 @@
+h3 Kasutaja andmed:
+.well
+    form(ng-submit="saveInfo()")
+        .form-group
+            label.control-label Nimi
+            input.form-control(ng-model="user.name" type="text" ng-disabled="working.info")
+        .form-group
+            label.control-label E-mail
+            input.form-control(ng-model="user.email" type="text" ng-disabled="working.info")
+        .form-group
+            label.control-label Telegram
+            input.form-control(ng-model="user.telegram" type="text" ng-disabled="working.info")
+        .form-group
+            button.btn.btn-success(type="submit" ng-disabled="working.info") Salvesta
+            button.btn.btn-danger(type="button" ng-click="resetInfo()" ng-disabled="working.info") Taasta

@@ -1,8 +1,17 @@
-app.factory("resourceService", ["$q", "$http", function($q, $http) {
+app.factory("mentorService", ["$q", "$http", function($q, $http) {
 
     function get (id) {
         var deferred = $q.defer();
-        $http.get(apiBase + "/resource/" + id)
+        $http.get(apiBase + "/mentor/" + id)
+            .then(function(data) {
+                return deferred.resolve(data);
+        });
+        return deferred.promise;
+    }
+
+    function getByUserId (id) {
+        var deferred = $q.defer();
+        $http.get(apiBase + "/mentor/user/" + id)
             .then(function(data) {
                 return deferred.resolve(data);
         });
@@ -11,34 +20,16 @@ app.factory("resourceService", ["$q", "$http", function($q, $http) {
 
     function getAll () {
         var deferred = $q.defer();
-        $http.get(apiBase + "/resource")
+        $http.get(apiBase + "/mentor")
             .then(function(data) {
                 return deferred.resolve(data);
         });
         return deferred.promise;
     }
 
-    function create(resource) {
+    function save(mentor) {
         var deferred = $q.defer();
-        $http.post(apiBase + "/resource", resource)
-            .then(function(data) {
-                return deferred.resolve(data);
-        });
-        return deferred.promise;
-    }
-
-    function save(resource) {
-        var deferred = $q.defer();
-        $http.put(apiBase + "/resource/" + resource.id, resource)
-            .then(function(data) {
-                return deferred.resolve(data);
-        });
-        return deferred.promise;
-    }
-
-    function destroy(id) {
-        var deferred = $q.defer();
-        $http.delete(apiBase + "/resource/" + id)
+        $http.put(apiBase + "/mentor/user/" + mentor.mentorshipId, mentor)
             .then(function(data) {
                 return deferred.resolve(data);
         });
@@ -49,17 +40,14 @@ app.factory("resourceService", ["$q", "$http", function($q, $http) {
         get: function (id) {
             return get(id);
         },
+        getByUserId: function (id) {
+            return getByUserId(id);
+        },
         getAll: function () {
             return getAll();
         },
-        create: function (resource) {
-            return create(resource);
-        },
-        save: function (resource) {
-            return save(resource);
-        },
-        delete: function (resource) {
-            return destroy(resource.id);
+        save: function (user) {
+            return save(user);
         }
     }
 }]);
