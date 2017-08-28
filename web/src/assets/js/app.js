@@ -63,7 +63,7 @@ var app = angular.module("hub", [
             }
         })
         .state("recoverPasswordComplete", {
-            url: "/recover/:id/:key",
+            url: "/password/:id/:key",
             templateUrl: "templates/recoverPasswordComplete.html",
             controller: "recoverPasswordCompleteController"
         })
@@ -95,6 +95,11 @@ var app = angular.module("hub", [
             url: "/users",
             templateUrl: "templates/hub/userList.html",
             controller: "userListController"
+        })
+        .state("hub.userAdd", {
+            url: "/users/add",
+            templateUrl: "templates/hub/userAdd.html",
+            controller: "userAddController"
         })
         .state("hub.user", {
             url: "/users/:id",

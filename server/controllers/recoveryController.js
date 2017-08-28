@@ -72,7 +72,7 @@ router.post('/:id/:key', function (req, res) {
 });
 
 function sendRecoveryMail(key, id, user) {
-    var recoverUrl = process.env.CLIENT_URL + "/recover/" + id + "/" + key;
+    var recoverUrl = process.env.CLIENT_URL + "/password/" + id + "/" + key;
     var mailOptions = {
         from: '"Hub | ITÜK" <noreply@ituk.ee>', // sender address
         to: user.email, // list of receivers

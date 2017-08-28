@@ -4,6 +4,13 @@ var jwt = require('jsonwebtoken');
 var models = require('../models/index');
 var randomstring = require("randomstring");
 var bcrypt = require('bcrypt-nodejs');
+var nodemailer = require('nodemailer');
+
+var transporter = nodemailer.createTransport({
+    sendmail: true,
+    newline: 'unix',
+    path: '/usr/sbin/sendmail'
+});
 
 require('dotenv').config();
 
@@ -16,8 +23,9 @@ router.post('', function (req, res) {
         studentCode: req.body.studentCode,
         status: "WAITING",
         mentorSelectionCode: bcrypt.hashSync(mentorSelectionCode)
-    }).then(function (application) {
-        res.send({id: application.id, mentorSelectionCode: mentorSelectionCode});
+    }).then(function(result) {
+        sendReturnMail(req.body.email, result.dataValues.id, mentorSelectionCode);
+        res.send({id: result.dataValues.id, mentorSelectionCode: mentorSelectionCode});
     }).catch(function (err) {
         res.sendStatus(400);
     })
@@ -104,8 +112,34 @@ router.post('/mentor/:id/:mentorSelectionCode', function (req, res) {
     models.Application.findById(req.params.id).then(function (application) {
         if (bcrypt.compareSync(req.params.mentorSelectionCode, application.mentorSelectionCode)) {
             application.mentorId = req.body.mentorId;
-            application.save().then(function (application) {
-                res.sendStatus(200);
+            application.save().then(function (result) {
+                    models.Mentor.findOne({
+                    where: {id: req.body.mentorId},
+                    include: [
+                        {
+                            model: models.User,
+                            as: "mentorship",
+                            where: {
+                                canBeMentor: true,
+                                archived: false
+                            },
+                            attributes: {
+                                exclude: [
+                                    'password', 'createdAt', 'updatedAt', 'telegram', 'admin', 'archived', 'canBeMentor',
+                                    'id'
+                                ]
+                            }
+                        }
+                    ],
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt', 'enabled']
+                    }
+                }).then(function (mentor) {
+                    sendNewMinionMail(mentor.dataValues.mentorship.dataValues.email, application);
+                    res.sendStatus(200);
+                }).catch(function () {
+                    res.sendStatus(500);
+                })
             }).catch(function (err) {
                 res.sendStatus(400);
             });
@@ -116,5 +150,44 @@ router.post('/mentor/:id/:mentorSelectionCode', function (req, res) {
         res.sendStatus(404);
     });
 });
+
+function sendReturnMail(email, id, mentorSelectCode) {
+    var returnUrl = process.env.CLIENT_URL + "/" + id + "/" + mentorSelectCode + "/email";
+    var mailOptions = {
+        from: '"Liitumine | ITÜK" <noreply@ituk.ee>', // sender address
+        to: email, // list of receivers
+        subject: 'ITÜKiga liitumine', // Subject line
+        html: '<p>Hei!</p><p>Oleme Sinu avalduse kätte saanud!</p>' +
+        '<p>Iga uus liige saab valida endale mentori, kes aitab tal ITÜKi eluga tutvuda.</p>' +
+        '<p>Oma valiku saad teha all oleval lingil.</p>' +
+        '<a href="' + returnUrl + '">' + returnUrl + '</a>'
+    };
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Message %s sent: %s', info.messageId, info.response);
+        }
+    });
+}
+
+function sendNewMinionMail(email, minion) {
+    var mailOptions = {
+        from: '"Hub | ITÜK" <noreply@ituk.ee>', // sender address
+        to: email, // list of receivers
+        subject: 'Uus minion', // Subject line
+        html: '<p>Hei!</p><p>Sulle on tekkinud uus minion!</p>' +
+        '<p>Nimi: ' + minion.name + '</p>' +
+        '<p>E-mail: ' + minion.email + '</p>' +
+        '<p>Võta temaga ASAP ühendust.</p>'
+    };
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Message %s sent: %s', info.messageId, info.response);
+        }
+    });
+}
 
 module.exports = router;
