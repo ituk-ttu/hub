@@ -3,7 +3,7 @@
 if (window.location.hostname === "localhost"){
     apiBase = "http://localhost:3000";
 } else {
-    apiBase = "https://hub.ituk.ee/api";
+    apiBase = "https://api.hub.ituk.ee";
 }
 
 var app = angular.module("hub", [
