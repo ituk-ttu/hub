@@ -23,6 +23,9 @@ form.well(ng-submit="save()")
         button.btn(ng-class="!user.canBeMentor ? 'btn-primary' : 'btn-default'" ng-click="user.canBeMentor = false"
                    ng-disabled="working" type="button") ei
     div
+        button.btn.btn-warning(ui-sref="hub.mentorProfile({id: user.id})") Muuda profiili
+
+    div
         label.control-label Arhiveeritud
     .btn-group.form-group
         button.btn(ng-class="user.archived ? 'btn-primary' : 'btn-default'" ng-click="user.archived = true"

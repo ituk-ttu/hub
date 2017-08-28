@@ -20,7 +20,11 @@ router.get('/me', function (req, res) {
 });
 
 router.get('', function (req, res) {
-    models.User.findAll({attributes: {exclude: ['password']}}).then(function (users) {
+    models.User.findAll({
+        attributes: {
+            exclude: ['password']
+        }
+    }).then(function (users) {
         res.send(users);
     });
 });
