@@ -46,6 +46,7 @@ router.post('/:id/:key', function (req, res) {
                 id: req.params.id
             }
         }).then(function (recoveryKey) {
+            console.log(recoveryKey);
             if (bcrypt.compareSync(req.params.key, recoveryKey.key)) {
                 models.User.findOne({
                     where: {
