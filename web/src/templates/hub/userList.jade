@@ -1,5 +1,5 @@
 h1 Kasutajad
-    button.btn.btn-success.pull-right(ui-sref="hub.userAdd") Lisa uus
+    button.btn.btn-success.pull-right(ui-sref="hub.userAdd" ng-if="$parent.currentUser.admin") Lisa uus
 .table-responsive
     table.table.table-striped.table-hover.table-list
         thead
