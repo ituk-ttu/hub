@@ -18,6 +18,6 @@
                     a.dropdown-toggle(data-toggle="dropdown" role="button") {{currentUser.name}} #[span.caret]
                     ul.dropdown-menu(role="menu")
                         li: a(ui-sref="hub.settings") Sätted
-                        li(ng-if="currentUser.canBeMentor"): a(ui-sref="hub.mentorProfile") Mentori profiil
+                        li(ng-if="currentUser.canBeMentor"): a(ui-sref="hub.mentorProfile({id: currentUser.id})") Mentori profiil
                         li: a(ui-sref="auth") Logi välja
 .container.content(ui-view)
