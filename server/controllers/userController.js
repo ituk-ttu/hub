@@ -58,7 +58,8 @@ router.post('', function (req, res) {
             email: req.body.email,
             telegram: req.body.telegram,
             canBeMentor: req.body.canBeMentor,
-            admin: req.body.admin
+            admin: req.body.admin,
+            archived: false
         }).then(function (user) {
             var key = randomstring.generate();
             models.RecoveryKey.create({

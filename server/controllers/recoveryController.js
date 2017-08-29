@@ -46,7 +46,6 @@ router.post('/:id/:key', function (req, res) {
                 id: req.params.id
             }
         }).then(function (recoveryKey) {
-            console.log(recoveryKey);
             if (bcrypt.compareSync(req.params.key, recoveryKey.key)) {
                 models.User.findOne({
                     where: {
@@ -54,13 +53,11 @@ router.post('/:id/:key', function (req, res) {
                         archived: false
                     }
                 }).then(function (user) {
-                    console.log(user);
-                    console.log("starting");
                     user.setPassword(req.body.newPassword);
                     user.save();
                     recoveryKey.destroy();
                 }).catch(function (err) {
-                    res.status(403).send(err.toString());
+                    res.sendStatus(403);
                 });
             } else {
                 res.sendStatus(403);

@@ -37,9 +37,7 @@ module.exports = function (sequelize, DataTypes) {
     };
 
     User.prototype.setPassword = function (password) {
-       console.log("setting pw");
        this.password = bcrypt.hashSync(password);
-        console.log("set pw");
     };
 
     User.prototype.toJSON = function () {
