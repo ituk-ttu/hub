@@ -82,7 +82,7 @@ router.get('/:id', function (req, res) {
 
 router.get('/user/:id', function (req, res) {
     models.Mentor.findOne({
-        where: req.user.admin || req.user.id === req.params.id? {} : {enabled: true},
+        where: req.user.admin || req.user.id === parseInt(req.params.id) ? {} : {enabled: true},
         include: [
             {
                 model: models.User,
@@ -111,7 +111,7 @@ router.get('/user/:id', function (req, res) {
 });
 
 router.put('/user/:id', function (req, res) {
-    if (req.user.admin || (req.user.id === req.params.id && req.user.canBeMentor)) {
+    if (req.user.admin || (req.user.id === parseInt(req.params.id) && req.user.canBeMentor)) {
         models.Mentor.findOrCreate({where: {mentorshipId: req.params.id}})
             .spread(function (mentor, created) {
                 mentor.mentorshipId = req.params.id;

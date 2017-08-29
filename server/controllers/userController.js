@@ -81,7 +81,7 @@ router.post('', function (req, res) {
 });
 
 router.put('/:id', function (req, res) {
-    if(req.user.id === req.params.id || req.user.admin) {
+    if(req.user.id === parseInt(req.params.id) || req.user.admin) {
         models.User.findById(req.params.id).then(function (user) {
             user.name = req.body.name;
             user.email = req.body.email;
