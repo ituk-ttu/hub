@@ -58,7 +58,7 @@ router.post('/:id/:key', function (req, res) {
                     user.save();
                     recoveryKey.destroy();
                 }).catch(function (err) {
-                    res.status(403).send(JSON.stringify(err));
+                    res.status(403).send(err.toString());
                 });
             } else {
                 res.sendStatus(403);
