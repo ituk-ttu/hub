@@ -32,7 +32,7 @@ app.controller("mentorProfileController", ["$q", "$scope", "$stateParams", "$roo
 
         $scope.$watch('mentor.photo', function() {
             if ($scope.mentor !== null && $scope.mentor.photo !== "" && $scope.mentor.photo.base64 !== undefined) {
-                $scope.photo = $scope.mentor.photo.base64;
+                $scope.photo = $scope.mentor.photo !== null ? $scope.mentor.photo.base64 : null;
             }
         });
 
