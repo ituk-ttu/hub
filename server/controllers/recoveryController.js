@@ -54,6 +54,7 @@ router.post('/:id/:key', function (req, res) {
                         archived: false
                     }
                 }).then(function (user) {
+                    console.log(user);
                     console.log("starting");
                     user.setPassword(req.body.newPassword);
                     user.save();
