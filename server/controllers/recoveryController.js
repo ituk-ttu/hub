@@ -56,6 +56,7 @@ router.post('/:id/:key', function (req, res) {
                     user.setPassword(req.body.newPassword);
                     user.save();
                     recoveryKey.destroy();
+                    res.sendStatus(200);
                 }).catch(function (err) {
                     res.sendStatus(403);
                 });
