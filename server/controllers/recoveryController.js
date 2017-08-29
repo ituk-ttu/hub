@@ -58,13 +58,13 @@ router.post('/:id/:key', function (req, res) {
                     recoveryKey.destroy();
                     res.send("Ok.");
                 }).catch(function (err) {
-                    res.status(403).send("");
+                    res.status(403).send("No key found");
                 });
             } else {
-                res.status(403).send("");
+                res.status(403).send("Wrong key");
             }
         }).catch(function (err) {
-            res.status(403).send("");
+            res.status(403).send("No row found");
         });
     } else {
         res.status(400).send("Passwords don't match");
