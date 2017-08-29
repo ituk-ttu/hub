@@ -46,8 +46,8 @@ app.factory("mentorService", ["$q", "$http", function($q, $http) {
         getAll: function () {
             return getAll();
         },
-        save: function (user) {
-            return save(user);
+        save: function (id, mentor) {
+            return save(id, mentor);
         }
     }
 }]);
