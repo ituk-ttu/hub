@@ -24,7 +24,7 @@ app.controller("mentorProfileController", ["$q", "$scope", "$stateParams", "$roo
 
         $scope.save = function () {
             $scope.working = true;
-            mentorService.save($scope.mentor).then(function (data) {
+            mentorService.save($stateParams.id, $scope.mentor).then(function (data) {
                 Notification.success("Mentorluse profiil salvestatud!");
                 $scope.working = false;
             })

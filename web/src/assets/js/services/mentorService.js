@@ -27,9 +27,9 @@ app.factory("mentorService", ["$q", "$http", function($q, $http) {
         return deferred.promise;
     }
 
-    function save(mentor) {
+    function save(id, mentor) {
         var deferred = $q.defer();
-        $http.put(apiBase + "/mentor/user/" + mentor.mentorshipId, mentor)
+        $http.put(apiBase + "/mentor/user/" + id, mentor)
             .then(function(data) {
                 return deferred.resolve(data);
         });
