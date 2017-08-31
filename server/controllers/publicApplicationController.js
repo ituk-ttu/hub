@@ -152,7 +152,7 @@ router.post('/mentor/:id/:mentorSelectionCode', function (req, res) {
 });
 
 function sendReturnMail(email, id, mentorSelectCode) {
-    var returnUrl = "https://liitu.ituk.ee/" + id + "/" + mentorSelectCode + "/email";
+    var returnUrl = "https://liitu.ituk.ee/#/" + id + "/" + mentorSelectCode + "/email";
     var mailOptions = {
         from: '"Liitumine | ITÜK" <noreply@ituk.ee>', // sender address
         to: email, // list of receivers
