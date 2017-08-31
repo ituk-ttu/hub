@@ -95,20 +95,9 @@ router.patch('/:id/status', function (req, res) {
             application.status = req.body.status;
             application.processedById = req.user.id;
             application.save()
-                .then(function (application) {
-                    models.User.create({
-                        name: application.name,
-                        email: application.name,
-                        admin: false,
-                        canBeMentor: false,
-                        archived: false
-                    }).then(function () {
-                        res.send(application);
-                    }).catch(function (err) {
-                        res.status(400).send("");
-                    });
-                }
-            ).catch(function (err) {
+                .then(function () {
+                    res.send(application);
+                }).catch(function (err) {
                 res.status(400).send("");
             });
         } else {
