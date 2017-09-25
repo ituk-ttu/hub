@@ -13,6 +13,7 @@
     "mysql2": "^1.3.5",
     "nodemailer": "^4.0.1",
     "randomstring": "^1.1.5",
+    "request": "^2.82.0",
     "sequelize": "^4.2.1",
     "ssacl-attribute-roles": "0.0.5"
   }
