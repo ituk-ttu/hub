@@ -57,7 +57,7 @@ app.controller("settingsController", ["$q", "$scope", "$stateParams", "$rootScop
 
         $scope.invalidateSession = function (session) {
             $scope.deleting = session.id;
-            settingsService.invalidateSession(session.data.id).then(function (res) {
+            settingsService.invalidateSession(session.id).then(function (res) {
                 $scope.deleting = null;
                 loadSessions();
             }).catch(function (err) {
