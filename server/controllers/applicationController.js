@@ -96,7 +96,44 @@ router.patch('/:id/status', function (req, res) {
             application.processedById = req.user.id;
             application.save()
                 .then(function () {
-                    res.send(application);
+                    if (req.body.status === "ACCEPTED") {
+                        request({
+                            method: "POST",
+                            url: process.env.MAILMAN_JOIN_URL,
+                            form: {
+                                list_id: process.env.MEMBER_LIST,
+                                subscriber: req.body.body.email,
+                                pre_confirmed: false,
+                                pre_approved: true
+                            }
+                        }, function (response, err) {
+                            console.log(err);
+                            models.User.create({
+                                name: application.name,
+                                email: application.email,
+                                telegram: "",
+                                canBeMentor: false,
+                                admin: false,
+                                archived: false
+                            }).then(function (user) {
+                                var key = randomstring.generate();
+                                models.RecoveryKey.create({
+                                    key: bcrypt.hashSync(key),
+                                    userId: user.id
+                                }).then(function (recoveryKey) {
+                                        sendCreateMail(key, recoveryKey.id, user);
+                                    res.send(req.body.status);
+                                    }
+                                ).catch(function (err) {
+                                    res.sendStatus(500);
+                                });
+                            }).catch(function (err) {
+                                res.sendStatus(500);
+                            })
+                        });
+                    } else {
+                        res.send(req.body.status)
+                    }
                 }).catch(function (err) {
                 res.status(400).send("");
             });
@@ -105,5 +142,25 @@ router.patch('/:id/status', function (req, res) {
         }
     });
 });
+
+function sendCreateMail(key, id, user) {
+    var recoverUrl = process.env.CLIENT_URL + "/password/" + id + "/" + key;
+    var mailOptions = {
+        from: '"Hub | ITÜK" <noreply@ituk.ee>', // sender address
+        to: user.email, // list of receivers
+        subject: 'Sulle on loodud Hub-i kasutaja!', // Subject line
+        html: '<p>Hei!</p><p>Klikkides all oleval lingil saad seada oma Hub-i kasutajale parooli.</p>' +
+        '<p>Link on kehtiv 24 tundi.</p>' +
+        '<p>Kui jääd parooli seadmisega hiljaks, pead vajutama sisse logimise lehel "unustasin parooli"!</p>' +
+        '<a href="' + recoverUrl + '">' + recoverUrl + '</a>'
+    };
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Message %s sent: %s', info.messageId, info.response);
+        }
+    });
+}
 
 module.exports = router;
