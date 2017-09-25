@@ -114,7 +114,8 @@ router.patch('/:id/status', function (req, res) {
                                 list_id: process.env.MEMBER_LIST,
                                 subscriber: application.email,
                                 pre_confirmed: true,
-                                pre_approved: true
+                                pre_approved: true,
+                                pre_verified: true
                             }
                         }, function (response, err) {
                             console.log(err);
