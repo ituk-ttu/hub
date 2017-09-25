@@ -19,7 +19,14 @@ router.use(function (req, res, next) {
         var token = req.body.token || req.query.token || req.headers['authorization'];
         if (token && token.length === 255) {
             models.Session.findOne({where: {token: token}, include: [{model: models.User, as: "user"}]})
-                .then(function (session) {req.user = session.user; next();})
+                .then(function (session) {
+                    req.user = session.user;
+                    if (req.user.admin) {
+                        next();
+                    } else {
+                        res.sendStatus(403);
+                    }
+                })
                 .catch(function (err) {res.sendStatus(403);})
         } else {return res.sendStatus(403);}
     }
