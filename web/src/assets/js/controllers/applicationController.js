@@ -48,12 +48,12 @@ app.controller("applicationController", ["$q", "$scope", "$stateParams", "$rootS
                     buttonsStyling: false
                 }).then(function () {
                     applicationService.setStatus($scope.application.id, status).then(function (application) {
-                        $scope.application.status = application.data.status;
+                        $scope.application.status = application.data;
                     });
                 });
             } else if (status === 'ACCEPTED') {
                 applicationService.setStatus($scope.application.id, status).then(function (application) {
-                    $scope.application.status = application.data.status;
+                    $scope.application.status = application.data;
                 });
             }
         };
