@@ -128,9 +128,11 @@ router.patch('/:id/status', function (req, res) {
                                     res.send(req.body.status);
                                     }
                                 ).catch(function (err) {
+                                    console.log(err);
                                     res.sendStatus(500);
                                 });
                             }).catch(function (err) {
+                                console.log(err);
                                 res.sendStatus(500);
                             })
                         });
