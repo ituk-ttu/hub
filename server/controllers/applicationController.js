@@ -3,6 +3,8 @@ var router = express.Router();
 var jwt = require('jsonwebtoken');
 var request = require('request');
 var models = require('../models/index');
+var randomstring = require("randomstring");
+var bcrypt = require('bcrypt-nodejs');
 
 require('dotenv').config();
 
