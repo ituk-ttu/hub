@@ -105,7 +105,7 @@ router.patch('/:id/status', function (req, res) {
                             url: process.env.MAILMAN_JOIN_URL,
                             form: {
                                 list_id: process.env.MEMBER_LIST,
-                                subscriber: req.body.body.email,
+                                subscriber: application.email,
                                 pre_confirmed: true,
                                 pre_approved: true
                             }
