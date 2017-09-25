@@ -104,7 +104,7 @@ router.patch('/:id/status', function (req, res) {
                             form: {
                                 list_id: process.env.MEMBER_LIST,
                                 subscriber: req.body.body.email,
-                                pre_confirmed: false,
+                                pre_confirmed: true,
                                 pre_approved: true
                             }
                         }, function (response, err) {
@@ -136,10 +136,10 @@ router.patch('/:id/status', function (req, res) {
                         res.send(req.body.status)
                     }
                 }).catch(function (err) {
-                res.status(400).send("");
+                res.status(400).send(err);
             });
         } else {
-            res.status(400).send("");
+            res.status(400).send(err);
         }
     });
 });
