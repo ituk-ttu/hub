@@ -136,10 +136,12 @@ router.patch('/:id/status', function (req, res) {
                         res.send(req.body.status)
                     }
                 }).catch(function (err) {
-                res.status(400).send(err);
+                console.log(err);
+                res.sendStatus(400);
             });
         } else {
-            res.status(400).send(err);
+            console.log("ERR Current: " + application.status + " Set:" + req.body.status);
+            res.sendStatus(400);
         }
     });
 });
