@@ -50,13 +50,13 @@ router.get('', function (req, res) {
                     attributes: {
                         exclude: [
                             'password', 'createdAt', 'updatedAt', 'email', 'telegram', 'admin', 'archived',
-                            'canBeMentor', 'id', 'photo'
+                            'canBeMentor', 'id'
                         ]
                     }
                 }
             ],
             attributes: {
-                exclude: ['createdAt', 'updatedAt', 'enabled']
+                exclude: ['createdAt', 'updatedAt', 'enabled', 'photo']
             }
         }]}).then(function (applications) {
         res.send(applications);
