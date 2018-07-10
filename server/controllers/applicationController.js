@@ -50,7 +50,7 @@ router.get('', function (req, res) {
                     attributes: {
                         exclude: [
                             'password', 'createdAt', 'updatedAt', 'email', 'telegram', 'admin', 'archived',
-                            'canBeMentor', 'id'
+                            'canBeMentor', 'id', 'photo'
                         ]
                     }
                 }
