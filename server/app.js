@@ -20,6 +20,7 @@ var recoveryController = require('./controllers/recoveryController');
 var resourceController = require('./controllers/resourceController');
 var publicApplicationController = require('./controllers/publicApplicationController');
 var mentorController = require('./controllers/mentorController');
+var interestController = require('./controllers/interestController');
 var models = require('./models/index');
 
 app.use('/authenticate', authController);
@@ -29,6 +30,7 @@ app.use('/recover', recoveryController);
 app.use('/resource', resourceController);
 app.use('/mentor', mentorController);
 app.use('/apply', publicApplicationController);
+app.use('/interest', interestController);
 
 models.sequelize.sync().then(function() {
     app.listen(process.env.PORT);
