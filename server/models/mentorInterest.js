@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-    var MentorIntrest = sequelize.define('MentorIntrest', {
+    var MentorInterest = sequelize.define('MentorInterest', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
@@ -10,12 +10,12 @@ module.exports = function(sequelize, DataTypes) {
         }
     });
 
-    MentorIntrest.associate = function (models) {
-        MentorIntrest.hasOne(models.Intrest, {
+    MentorInterest.associate = function (models) {
+        MentorInterest.belongsTo(models.Interest, {
             onDelete: "CASCADE",
-            as: "intrest"
+            as: "interest"
         });
     };
 
-    return MentorIntrest;
+    return MentorInterest;
 };

@@ -31,7 +31,7 @@ module.exports = function(sequelize, DataTypes) {
             as: "mentorship"
         });
 
-      Mentor.hasMany(models.MentorIntrest, {
+      Mentor.hasMany(models.MentorInterest, {
         onDelete: "CASCADE",
         as: "intrest",
         foreignKey: "mentorId"

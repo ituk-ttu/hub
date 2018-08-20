@@ -33,5 +33,7 @@ app.use('/apply', publicApplicationController);
 app.use('/interest', interestController);
 
 models.sequelize.sync().then(function() {
+    console.log(process.env.PORT);
+    console.log(process.env.DB_URL);
     app.listen(process.env.PORT);
 });

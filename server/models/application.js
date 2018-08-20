@@ -34,6 +34,7 @@ module.exports = function(sequelize, DataTypes) {
             onDelete: "NO ACTION",
             as: "mentor"
         });
+
     };
 
     Application.prototype.toJSON = function () {

@@ -11,13 +11,15 @@ module.exports = function(sequelize, DataTypes) {
     });
 
     InterestResults.associate = function (models) {
-        InterestResults.hasOne(models.Application, {
-            onDelete: "NO ACTION",
-            as: "application"
+        InterestResults.belongsTo(models.Application, {
+            onDelete: "CASCADE",
+            as: "application",
+            foreignKey: "applicationId"
         });
-        InterestResults.hasOne(models.Interest, {
+        InterestResults.belongsTo(models.Interest, {
             onDelete: "NO ACTION",
-            as: "interest"
+            as: "interest",
+            foreignKey: "interestId"
         });
     };
 
