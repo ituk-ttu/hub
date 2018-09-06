@@ -67,6 +67,7 @@ router.get('', function (req, res) {
 
 router.get('/minions/:id', function (req, res) {
     models.Application.findAll({
+        where: {mentorId: req.params.id},
         include: [
             {
                 model: models.Mentor,
@@ -92,7 +93,7 @@ router.get('/minions/:id', function (req, res) {
                     exclude: ['createdAt', 'updatedAt', 'enabled', 'photo']
                 }
             }]}).then(function (applications) {
-        res.send(applications.filter(application => application.mentor.id === req.params.id));
+        res.send(applications);
     }).catch(function (err) {
         res.sendStatus(500);
     });
