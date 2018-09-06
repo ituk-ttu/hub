@@ -67,7 +67,6 @@ router.get('', function (req, res) {
 
 router.get('/minions/:id', function (req, res) {
     models.Application.findAll({
-        where: {mentorId: req.params.id},
         include: [
             {
                 model: models.Mentor,
