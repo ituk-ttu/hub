@@ -6,7 +6,7 @@ app.controller("applicationListController", ["$q", "$scope", "$stateParams", "$r
 
         var init = function () {
             applicationService.getMinions($stateParams.id).then(function (applications) {
-                $scope.minions = applications.data;
+                $scope.applications = applications.data;
             })
         };
 

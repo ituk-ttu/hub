@@ -17,7 +17,7 @@ h1 Sinu mentoriks valinud inimesed
                 td: input.input-sm.form-control(type="text" placeholder="Otsi" ng-model="search.email")
                 td: input.input-sm.form-control(type="text" placeholder="Otsi" ng-model="search.studentCode")
                 td
-            tr.clickable(ng-repeat="application in minions | filter: search | applicationOrderer",
+            tr.clickable(ng-repeat="application in applications | filter: search | applicationOrderer",
                              ui-sref="hub.application({id: application.id})"
                              ng-class="getTableRowClass(application)")
                 td {{application.id}}
