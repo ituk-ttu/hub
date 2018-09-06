@@ -65,6 +65,39 @@ router.get('', function (req, res) {
     });
 });
 
+router.get('/minions/:id', function (req, res) {
+    models.Application.findAll({
+        include: [
+            {
+                model: models.Mentor,
+                as: "mentor",
+                exclude: ["mentorSelectionCode"],
+                include: [
+                    {
+                        model: models.User,
+                        as: "mentorship",
+                        where: {
+                            canBeMentor: true,
+                            archived: false
+                        },
+                        attributes: {
+                            exclude: [
+                                'password', 'createdAt', 'updatedAt', 'email', 'telegram', 'admin', 'archived',
+                                'canBeMentor', 'id'
+                            ]
+                        }
+                    }
+                ],
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt', 'enabled', 'photo']
+                }
+            }]}).then(function (applications) {
+        res.send(applications.filter(application => application.mentor.id === req.params.id));
+    }).catch(function (err) {
+        res.sendStatus(500);
+    });
+});
+
 router.get('/:id', function (req, res) {
     models.Application.findOne({
         where: {id: req.params.id},

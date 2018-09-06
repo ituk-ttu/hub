@@ -1,0 +1,29 @@
+h1 Sinu mentoriks valinud inimesed
+.table-responsive
+    table.table.table-striped.table-hover.table-list
+        thead
+            tr
+                th ID
+                th Nimi
+                th Isikukood
+                th E-mail
+                th Tudengikood
+                th Staatus
+        tbody
+            tr
+                td
+                td: input.input-sm.form-control(type="text" placeholder="Otsi" ng-model="search.name")
+                td: input.input-sm.form-control(type="text" placeholder="Otsi" ng-model="search.personalCode")
+                td: input.input-sm.form-control(type="text" placeholder="Otsi" ng-model="search.email")
+                td: input.input-sm.form-control(type="text" placeholder="Otsi" ng-model="search.studentCode")
+                td
+            tr.clickable(ng-repeat="application in minions | filter: search | applicationOrderer",
+                             ui-sref="hub.application({id: application.id})"
+                             ng-class="getTableRowClass(application)")
+                td {{application.id}}
+                td: strong {{application.name}}
+                td {{application.personalCode}}
+                td {{application.email}}
+                td {{application.studentCode}}
+                td {{application.createdAt | amDateFormat:'HH:mm DD.MM.YYYY'}}
+                td: span.label(ng-class="getStatusLabel(application.status)") {{application.status}}

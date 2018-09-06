@@ -11,6 +11,7 @@
             ul.nav.navbar-nav
                 li: a(ui-sref="hub.resourceList") Ressursid
                 li(ng-if="currentUser.admin"): a(ui-sref="hub.applicationList") Avaldused
+                li(ng-if="currentUser.canBeMentor"): a(ui-sref="hub.minionsList") Minu minionid
                 li: a(ui-sref="hub.mentorList") Mentorid
                 li: a(ui-sref="hub.userList") Kasutajad
             ul.nav.navbar-nav.navbar-right
