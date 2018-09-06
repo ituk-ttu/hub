@@ -86,6 +86,11 @@ var app = angular.module("hub", [
             templateUrl: "templates/hub/applicationList.html",
             controller: "applicationListController"
         })
+        .state("hub.minionsList", {
+            url: "/minions",
+            templateUrl: "templates/hub/minionsList.html",
+            controller: "minionsListController"
+        })
         .state("hub.application", {
             url: "/applications/:id",
             templateUrl: "templates/hub/application.html",
