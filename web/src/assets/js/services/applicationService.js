@@ -9,15 +9,6 @@ app.factory("applicationService", ["$q", "$http", function($q, $http) {
         return deferred.promise;
     }
 
-    function getMinions (id) {
-        var deferred = $q.defer();
-        $http.get(apiBase + "/application/minions/" + id)
-            .then(function(data) {
-                return deferred.resolve(data);
-            });
-        return deferred.promise;
-    }
-
     function getAll () {
         var deferred = $q.defer();
         $http.get(apiBase + "/application")
@@ -42,9 +33,6 @@ app.factory("applicationService", ["$q", "$http", function($q, $http) {
         },
         getAll: function () {
             return getAll();
-        },
-        getMinions: function (id) {
-            return getMinions(id);
         },
         setStatus: function (id, status) {
             return setStatus(id, status)
