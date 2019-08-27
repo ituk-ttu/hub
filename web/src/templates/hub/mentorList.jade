@@ -14,6 +14,5 @@ h1 Mentorid
                     a.gif-btn(ng-click="openGifs[mentor.id] = false" ng-if="openGifs[mentor.id] == true") Lemmik GIF -
                     img.mentor-gif(ng-if="openGifs[mentor.id] == true" ng-src="{{mentor.gif}}")
                     p.mentor-quote: em {{mentor.quote}}
-                    a.btn.btn-primary.btn-block.disabled(ng-if="!$parent.currentUser.admin") Vali
                     a.btn.btn-primary.btn-block(ng-if="$parent.currentUser.admin"
                                                 ui-sref="hub.mentorProfile({id: mentor.mentorshipId})") Muuda

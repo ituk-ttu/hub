@@ -30,7 +30,14 @@ module.exports = function(sequelize, DataTypes) {
             onDelete: "CASCADE",
             as: "mentorship"
         });
+
+      Mentor.hasMany(models.MentorIntrest, {
+        onDelete: "CASCADE",
+        as: "intrest",
+        foreignKey: "mentorId"
+      });
     };
+
 
     return Mentor;
 };
