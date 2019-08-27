@@ -5,11 +5,7 @@ var randomstring = require('randomstring');
 var bcrypt = require('bcrypt-nodejs');
 var nodemailer = require('nodemailer');
 
-var transporter = nodemailer.createTransport({
-    sendmail: true,
-    newline: 'unix',
-    path: '/usr/sbin/sendmail'
-});
+var transporter = nodemailer.createTransport(process.env.MAIL_TRANSPORT);
 
 require('dotenv').config();
 

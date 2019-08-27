@@ -9,11 +9,7 @@ var nodemailer = require('nodemailer');
 
 require('dotenv').config();
 
-var transporter = nodemailer.createTransport({
-    sendmail: true,
-    newline: 'unix',
-    path: '/usr/sbin/sendmail'
-});
+var transporter = nodemailer.createTransport(process.env.MAIL_TRANSPORT);
 
 router.use(function (req, res, next) {
         var token = req.body.token || req.query.token || req.headers['authorization'];
